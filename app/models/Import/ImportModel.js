@@ -22,8 +22,8 @@ module.exports = {
     let newid = require('uuid').v4()
     let collection = params;
     JSON.stringify(collection)
-    let new_data = new data({ params })
-
+    let new_data = new data(collection)
+    console.log(new_data)
     new_data.save()
     .then(() => {
       return "201"
