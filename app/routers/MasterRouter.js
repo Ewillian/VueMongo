@@ -8,4 +8,4 @@ const import_router = require('./Import/ImportRouter')
 router.use('/import', import_router)
 
 // Export
-module.exports = router;
+module.exports = router
