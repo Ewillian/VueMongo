@@ -13,7 +13,7 @@ let db = mongoose.connection
 module.exports = {
 
   get: async(data_id) => {
-    var result = data.findOne({"id": data_id})
+    var result = data.findOne({"_id": data_id})
     return await result;
   },
 
