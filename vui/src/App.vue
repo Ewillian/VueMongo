@@ -1,20 +1,14 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <ImportVue />
+  <div id="nav">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/test">Test</router-link> |
+      <router-link to="/upload">Upload</router-link>
+    </div>
+    <router-view/>
   </div>
 </template>
-
-<script>
-import ImportVue from './components/ImportVue.vue'
-
-export default {
-  name: 'App',
-  components: {
-    ImportVue
-  }
-}
-</script>
 
 <style>
 #app {
@@ -24,5 +18,18 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+#nav {
+  padding: 30px;
+}
+
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
 }
 </style>

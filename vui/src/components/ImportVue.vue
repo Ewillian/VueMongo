@@ -1,42 +1,77 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
+  <div class="container">
+    <h1>Contents:</h1>
+    <p class="error" v-if="error">{{error}}</p>
+    <div class="DataContainer">
+      <div class="data"
+        v-for="(data, index) in results"
+        v-bind:item="data"
+        v-bind:index="index"
+        v-bind:key="data.id"
+      >
+        <p class="text">{{text}}</p>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import ImportService from '../ImportService.js'
+import axios from 'axios'
 export default {
   name: 'ImportVue',
-  props: {
-    msg: String
-  }
+  data() {
+    return {
+      results: [],
+      error: '',
+      text:''
+    }
+  },
+  async created() {
+    try{
+      this.results = await ImportService.getData()
+    }catch(err){
+      this.error = err.message
+    }
+  },
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
+div.container {
+  max-width: 800px;
+  margin: 0 auto;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+
+p.error {
+  border: 1px solid #ff5b5f;
+  background-color: #ffc5c1;
+  padding: 10px;
+  margin-bottom: 15px;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
+
+div.data {
+  position: relative;
+  border: 1px solid #5bd658;
+  background-color: #bcffb8;
+  padding: 10px 10px 30px 10px;
+  margin-bottom: 15px;
 }
-a {
-  color: #42b983;
+
+div.created-at {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 5px 15px 5px 15px;
+  background-color: darkgreen;
+  color: white;
+  font-size: 13px;
+}
+
+p.text {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 0;
 }
 </style>
