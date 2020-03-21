@@ -1,4 +1,5 @@
 <template>
+
   <div class="container">
     <h1>Contents:</h1>
     <p class="error" v-if="error">{{error}}</p>
@@ -16,6 +17,8 @@
 </template>
 
 <script>
+
+
 import ImportService from '../ImportService.js'
 import axios from 'axios'
 export default {

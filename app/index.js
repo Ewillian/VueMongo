@@ -6,6 +6,13 @@ const mongoose = require('mongoose')
 //Define Port and Router Controller
 const port = process.env.PORT || 6060
 
+
+app.use(function(res, res, next) {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    res.setHeader("Access-Control-Allow-Methods", "*");
+    res.setHeader("Access-Control-Allow-Headers", "*");
+})
 //Mongoose Connection Test
 mongoose.connect("mongodb://localhost:27017/DataBase", { useNewUrlParser: true, useUnifiedTopology: true})
 const db = mongoose.connection
