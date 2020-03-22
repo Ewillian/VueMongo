@@ -10,7 +10,7 @@
         v-bind:index="index"
         v-bind:key="data.id"
       >
-        <p class="text">{{text}}</p>
+        <p class="text">{{results}}</p>
       </div>
     </div>
   </div>
@@ -25,17 +25,21 @@ export default {
   name: 'ImportVue',
   data() {
     return {
-      results: [],
+      results: {},
       error: '',
       text:''
     }
   },
   async created() {
-    try{
-      this.results = await ImportService.getData()
-    }catch(err){
-      this.error = err.message
-    }
+    axios.get("http://localhost:6060/import/5e77a0440c34e7418d99d175")
+    .then(response => {
+      // JSON responses are automatically parsed.
+      this.results = response.data
+    })
+    .catch(e => {
+      this.errors.push(e)
+    })
+
   },
 }
 </script>
