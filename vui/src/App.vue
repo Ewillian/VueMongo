@@ -4,7 +4,7 @@
   <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/test">Test</router-link> |
-      <router-link to="/upload">Upload</router-link>
+      <router-link to="/export">Export</router-link>
     </div>
     <router-view/>
   </div>
