@@ -11,9 +11,15 @@ const routes = [
   },
 
   {
-    path: '/test',
-    name: 'Test',
-    component: () => import('../components/ImportVue.vue')
+    path: '/getone',
+    name: 'GetOne',
+    component: () => import('../components/GetOne.vue')
+  },
+
+  {
+    path: '/getall',
+    name: 'GetAll',
+    component: () => import('../components/GetAll.vue')
   }
 ]
 

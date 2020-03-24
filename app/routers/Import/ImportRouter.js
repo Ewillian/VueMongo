@@ -4,24 +4,27 @@ const data = require('../../models/Import/ImportModel.js')
 const mongoose = require('mongoose')
 
 router.get('/', function(req, res, next) {
-    console.log('test')
-    res.format({
-        json: () => {
-            res.send({                  
-                data: "result"
-            })
-        }/*,
-             html: () => {
-                 res.render()
-             }*/
+    console.log('getall')
+    data.getall().then((result) => {
+        console.log(result)
+        let json_to_object = JSON.parse(JSON.stringify(result))
+        res.format({
+            json: () => {
+                res.send({           
+                    json_to_object
+                })
+            }/*,
+                 html: () => {
+                     res.render()
+                 }*/
+        })
     })
 })
 
 router.get('/:id', function(req, res, next) {
-    console.log('test')
+    console.log('getone')
     var id = mongoose.Types.ObjectId(req.params.id);
-    
-    data.get(id).then((result) => {
+    data.getone(id).then((result) => {
         console.log(result)
         let json_to_object = JSON.parse(JSON.stringify(result))
         res.format({
