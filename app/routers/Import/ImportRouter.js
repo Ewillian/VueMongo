@@ -23,13 +23,10 @@ router.get('/:id', function(req, res, next) {
     
     data.get(id).then((result) => {
         console.log(result)
-        var json_to_object = JSON.parse(JSON.stringify(result))
-        // JSON.parse(result).forEach(element => {
-        //     console.log(element)
-        // });
+        let json_to_object = JSON.parse(JSON.stringify(result))
         res.format({
             json: () => {
-                res.send({                  
+                res.send({           
                     json_to_object
                 })
             }/*,

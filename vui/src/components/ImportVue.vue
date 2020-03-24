@@ -3,16 +3,26 @@
   <div class="container">
     <h1>Contents:</h1>
     <p class="error" v-if="error">{{error}}</p>
-    <div class="DataContainer">
-      <div class="data"
-        v-for="(data, index) in results"
-        v-bind:item="data"
-        v-bind:index="index"
-        v-bind:key="data.id"
-      >
-        <p class="text">{{results.json_to_object._id}}</p>
-      </div>
-    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th v-for="(data, index) in keys"
+              v-bind:item="data"
+              v-bind:index="index"
+              v-bind:key="data.id">{{ data }}</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr>
+            <td v-for="(data, index) in values"
+              v-bind:item="data"
+              v-bind:index="index"
+              v-bind:key="data.id">{{ data }}</td>
+          </tr>
+      </tbody>
+    </table>
+    
   </div>
 </template>
 
@@ -25,16 +35,19 @@ export default {
   name: 'ImportVue',
   data() {
     return {
-      results: {},
+      keys: [],
+      values: [],
       error: '',
       text:''
     }
   },
   async created() {
     axios.get("http://localhost:6060/import/5e77a0440c34e7418d99d175")
-    .then(response => {
-      // JSON responses are automatically parsed.
-      this.results = response.data
+    .then(response => { 
+      this.keys = Object.keys(response.data.json_to_object)
+      this.values = Object.values(response.data.json_to_object)
+      console.log(this.keys)
+      console.log(this.values)
     })
     .catch(e => {
       this.errors.push(e)
@@ -81,4 +94,31 @@ p.text {
   font-weight: 700;
   margin-bottom: 0;
 }
+
+table {
+  border: 2px solid #42b983;
+  border-radius: 3px;
+  background-color: #fff;
+}
+
+th {
+  background-color: #42b983;
+  color: rgba(255,255,255,0.66);
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+td {
+  background-color: #f9f9f9;
+}
+
+th, td {
+  min-width: 120px;
+  padding: 10px 20px;
+}
+
+
 </style>
