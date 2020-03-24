@@ -1,34 +1,10 @@
 <template>
 
   <div class="container">
-    <h1>Contents:</h1>
+    <h1>Suppréssion en cours...</h1>
     <p class="error" v-if="error">{{error}}</p>
-
-    <table>
-      <thead>
-        <tr>
-          <th v-for="(data, index) in keys"
-              v-bind:item="data"
-              v-bind:index="index"
-              v-bind:key="data.id">{{ data }}</th>
-          <th> Actions </th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr v-for="(data, index) in values"
-              v-bind:item="data"
-              v-bind:index="index"
-              v-bind:key="data.id">
-            <td v-for="(value, index) in data"
-              v-bind:item="value"
-              v-bind:index="index"
-              v-bind:key="value.id">{{ value }}</td>
-            <router-link :to="{ name: 'GetOne', params: { data_id: data._id}}">📄</router-link>
-            <router-link :to="{ name: 'DelOne', params: { data_id: data._id}}">🗑️</router-link>
-          </tr>
-      </tbody>
-    </table>
-    
+    <p> {{text}} </p>
+    <router-link to="/getall">Retour à l'afficage des données.</router-link>
   </div>
 </template>
 
@@ -38,20 +14,16 @@
 import ImportService from '../ImportService.js'
 import axios from 'axios'
 export default {
-  name: 'GetAllVue',
+  name: 'DelOneVue',
   data() {
     return {
-      keys: [],
-      values: [],
-      error: '',
       text:''
     }
   },
   async created() {
-    axios.get("http://localhost:6060/import/")
+    axios.delete(`http://localhost:6060/import/${this.$route.params.data_id}`)
     .then(response => { 
-      this.keys = Object.keys(response.data.json_to_object[0])
-      this.values = Object.values(response.data.json_to_object)
+      this.text = "Votre demande à été éffectué !"
     })
     .catch(e => {
       this.errors.push(e)

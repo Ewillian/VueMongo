@@ -20,6 +20,12 @@ const routes = [
     path: '/getall',
     name: 'GetAll',
     component: () => import('../components/GetAll.vue')
+  },
+
+  {
+    path: '/dellone',
+    name: 'DelOne',
+    component: () => import('../components/DelOne.vue')
   }
 ]
 

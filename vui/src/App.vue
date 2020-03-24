@@ -3,7 +3,6 @@
     <img alt="Vue logo" src="./assets/logo.png">
   <div id="nav">
       <router-link to="/">Home</router-link> |
-      <router-link to="/getone">GetOne</router-link> |
       <router-link to="/upload">Upload</router-link> |
       <router-link to="/getall">Afficher l'ensemble des données</router-link>
     </div>
