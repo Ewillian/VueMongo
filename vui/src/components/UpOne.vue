@@ -1,9 +1,8 @@
 <template>
 
   <div class="container">
-    <h1>Contents:</h1>
+    <h1>Modification</h1>
     <p class="error" v-if="error">{{error}}</p>
-
     <table>
       <thead>
         <tr>
@@ -11,50 +10,58 @@
               v-bind:item="data"
               v-bind:index="index"
               v-bind:key="data.id">{{ data }}</th>
-          <th> Actions </th>
         </tr>
       </thead>
       <tbody>
-          <tr v-for="(data, index) in values"
+          <tr>
+            <td v-for="(data, index) in values"
               v-bind:item="data"
               v-bind:index="index"
-              v-bind:key="data.id">
-            <td v-for="(value, index) in data"
-              v-bind:item="value"
-              v-bind:index="index"
-              v-bind:key="value.id">{{ value }}</td>
-            <router-link :to="{ name: 'GetOne', params: { data_id: data._id}}">📄</router-link>
-            <router-link :to="{ name: 'DelOne', params: { data_id: data._id}}">🗑️</router-link>
-            <router-link :to="{ name: 'UpOne', params: { data_id: data._id}}">✍🏻</router-link>
+              v-bind:key="data.id">{{ data }}</td>
           </tr>
       </tbody>
     </table>
-    
+  <div v-for="(data, index) in keys"
+              v-bind:item="data"
+              v-bind:index="index"
+              v-bind:key="data.id">
+    <p>
+      <label for="name">{{data}}</label>
+        <input
+          id="name"
+          v-model="name"
+          type="text"
+          name="name"
+        >
+    </p>
+  </div>
+
+
+
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 export default {
-  name: 'GetAllVue',
+  name: 'UpOneVue',
   data() {
     return {
+      text:'',
       keys: [],
-      values: [],
-      error: '',
-      text:''
+      values: []
     }
   },
   async created() {
-    axios.get("http://localhost:6060/import/")
+    axios.get(`http://localhost:6060/import/${this.$route.params.data_id}`)
     .then(response => { 
-      this.keys = Object.keys(response.data.json_to_object[0])
+      this.keys = Object.keys(response.data.json_to_object)
+      let i = 0;
       this.values = Object.values(response.data.json_to_object)
     })
     .catch(e => {
       this.errors.push(e)
     })
-
   },
 }
 </script>
@@ -116,6 +123,5 @@ th, td {
   min-width: 120px;
   padding: 10px 20px;
 }
-
 
 </style>

@@ -11,7 +11,7 @@ const routes = [
   },
 
   {
-    path: '/getone/:data_id',
+    path: '/getone/',
     name: 'GetOne',
     component: () => import('../components/GetOne.vue')
   },
@@ -26,6 +26,12 @@ const routes = [
     path: '/dellone',
     name: 'DelOne',
     component: () => import('../components/DelOne.vue')
+  },
+
+  {
+    path: '/upone',
+    name: 'UpOne',
+    component: () => import('../components/UpOne.vue')
   }
 ]
 
