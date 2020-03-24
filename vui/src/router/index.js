@@ -11,7 +11,7 @@ const routes = [
   },
 
   {
-    path: '/getone',
+    path: '/getone/:data_id',
     name: 'GetOne',
     component: () => import('../components/GetOne.vue')
   },

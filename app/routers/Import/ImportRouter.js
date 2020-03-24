@@ -51,4 +51,12 @@ router.post('/',(req, res, next) => {
     }) 
 })
 
+router.delete('/:data_id', (req, res, next) => {
+    data.remove(req.params.data_id).then(() => {
+      res.format({
+        json: () => { res.status(200).send({ message: 'success' }) }
+      })
+    }).catch(next)
+})
+
 module.exports = router

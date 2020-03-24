@@ -11,6 +11,7 @@
               v-bind:item="data"
               v-bind:index="index"
               v-bind:key="data.id">{{ data }}</th>
+          <th> Actions </th>
         </tr>
       </thead>
       <tbody>
@@ -22,6 +23,7 @@
               v-bind:item="value"
               v-bind:index="index"
               v-bind:key="value.id">{{ value }}</td>
+            <router-link :to="{ name: 'GetOne', params: { data_id: data._id}}">📄</router-link>
           </tr>
       </tbody>
     </table>
