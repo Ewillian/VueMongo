@@ -10,7 +10,7 @@
         v-bind:index="index"
         v-bind:key="data.id"
       >
-        <p class="text">{{results}}</p>
+        <p class="text">{{results.result}}</p>
       </div>
     </div>
   </div>
@@ -31,7 +31,7 @@ export default {
     }
   },
   async created() {
-    axios.get("http://localhost:6060/import/5e77a0440c34e7418d99d175")
+    axios.get("http://localhost:6060/import/5e67bbe54b945e577482035f")
     .then(response => {
       // JSON responses are automatically parsed.
       this.results = response.data

@@ -13,7 +13,7 @@ module.exports = {
 
   get: async(data_id) => {
     console.log(data.collection.collectionName)
-    var result = data.findOne({"_id": "5e77a0440c34e7418d99d175"})
+    var result = data.findOne({"_id": "5e67bbe54b945e577482035f"})
     return await result
   },
 

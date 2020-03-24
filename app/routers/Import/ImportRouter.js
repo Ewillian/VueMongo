@@ -24,8 +24,9 @@ router.get('/:id', function(req, res, next) {
         console.log(result)
         res.format({
             json: () => {
+                
                 res.send({                  
-                    data: result
+                    result
                 })
             }/*,
                  html: () => {
