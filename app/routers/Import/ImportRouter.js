@@ -20,12 +20,17 @@ router.get('/', function(req, res, next) {
 router.get('/:id', function(req, res, next) {
     console.log('test')
     var id = mongoose.Types.ObjectId(req.params.id);
+    
     data.get(id).then((result) => {
         console.log(result)
+        var json_to_object = JSON.parse(JSON.stringify(result))
+        // JSON.parse(result).forEach(element => {
+        //     console.log(element)
+        // });
         res.format({
             json: () => {
                 res.send({                  
-                    data: result
+                    json_to_object
                 })
             }/*,
                  html: () => {

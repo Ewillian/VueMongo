@@ -10,7 +10,7 @@
         v-bind:index="index"
         v-bind:key="data.id"
       >
-        <p class="text">{{results}}</p>
+        <p class="text">{{results.json_to_object._id}}</p>
       </div>
     </div>
   </div>
