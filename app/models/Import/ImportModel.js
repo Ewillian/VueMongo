@@ -47,5 +47,13 @@ module.exports = {
   remove: async(data_id) => {
     console.log("Delete")
     await data.deleteOne({"_id": data_id});
+  },
+
+  getdatabases: async() => {
+    mongoose.connect("mongodb://localhost:27017/DataBase", {useNewUrlParser: true,useUnifiedTopology: true})
+    let db = mongoose.connection
+    collections = Object.keys(db.collections);
+    console.log(collections)
+    return await collections
   }
 } 

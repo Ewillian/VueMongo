@@ -13,10 +13,21 @@ router.get('/', function(req, res, next) {
                 res.send({           
                     json_to_object
                 })
-            }/*,
-                 html: () => {
-                     res.render()
-                 }*/
+            }
+        })
+    })
+})
+
+router.get('/collections', function(req, res, next) {
+    console.log('getcollections')
+    data.getdatabases().then((result) => {
+        console.log(result)
+        res.format({
+            json: () => {
+                res.send({           
+                    result
+                })
+            }
         })
     })
 })
@@ -32,10 +43,7 @@ router.get('/:id', function(req, res, next) {
                 res.send({           
                     json_to_object
                 })
-            }/*,
-                 html: () => {
-                     res.render()
-                 }*/
+            }
         })
     })
 })
@@ -45,7 +53,6 @@ router.post('/',(req, res, next) => {
     console.log(req.body)
     data.insert(req.body).then(() => {
         res.format({
-          //html: () => { res.redirect(`/games/`) },
           json: () => { res.status(201).send({ code: 'ok' }) }
         })
     }) 
@@ -58,5 +65,6 @@ router.delete('/:data_id', (req, res, next) => {
       })
     }).catch(next)
 })
+
 
 module.exports = router
