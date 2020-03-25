@@ -1,24 +1,16 @@
-  
 const mongoose = require('mongoose')
 var Schema = mongoose.Schema
-
 const import_schema = new Schema({ any: Schema.Types.Mixed}, {strict: false})
-
-
-let data = mongoose.model('test', import_schema);
-let mongo = mongoose.connect("mongodb://localhost:27017/DataBase", {useNewUrlParser: true,useUnifiedTopology: true})
-let db = mongoose.connection
+let data = mongoose.model('tests', import_schema);
 
 module.exports = {
 
   getone: async(data_id) => {
-    console.log(data.collection.collectionName)
     var result = data.findOne({"_id": data_id})
     return await result
   },
 
   getall: async() => {
-    console.log(data.collection.collectionName)
     var result = data.find({})
     return await result
   },
@@ -47,13 +39,5 @@ module.exports = {
   remove: async(data_id) => {
     console.log("Delete")
     await data.deleteOne({"_id": data_id});
-  },
-
-  getdatabases: async() => {
-    mongoose.connect("mongodb://localhost:27017/DataBase", {useNewUrlParser: true,useUnifiedTopology: true})
-    let db = mongoose.connection
-    collections = Object.keys(db.collections);
-    console.log(collections)
-    return await collections
   }
 } 

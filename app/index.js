@@ -17,28 +17,12 @@ app.use(cors())
      res.setHeader("Access-Control-Allow-Headers", "*");
      next();
  })
-
-// app.use((req, res, next) => {
-//     res.header('Access-Control-Allow-Origin', '*')
-
-//     // authorized headers for preflight requests
-//     // https://developer.mozilla.org/en-US/docs/Glossary/preflight_request
-//     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
-//     next()
-
-//     app.options('*', (req, res) => {
-//         // allowed XHR methods  
-//         res.header('Access-Control-Allow-Methods', 'GET, PATCH, PUT, POST, DELETE, OPTIONS')
-//         res.send();
-//     })
-// })
-
+ 
 //Mongoose Connection Test
-mongoose.connect("mongodb://localhost:27017/DataBase", { useNewUrlParser: true, useUnifiedTopology: true})
+const connection = mongoose.connect("mongodb://localhost:27017/DataBase", { useNewUrlParser: true, useUnifiedTopology: true})
 const db = mongoose.connection
 db.on('error', (error) => console.error(error))
 db.once('open', () => console.log('Connected to Mongo Database with Mongoose.'))
-
 //Use JSON Parser
 app.use(express.json())
 

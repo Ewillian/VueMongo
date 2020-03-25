@@ -2,6 +2,9 @@ const router = require('express').Router()
 const bodyparser = require('body-parser')
 const data = require('../../models/Import/ImportModel.js')
 const mongoose = require('mongoose')
+const MongoClient = require('mongodb').MongoClient;
+const assert = require('assert');
+const url = "mongodb://localhost:27017"
 
 router.get('/', function(req, res, next) {
     console.log('getall')
@@ -20,16 +23,23 @@ router.get('/', function(req, res, next) {
 
 router.get('/collections', function(req, res, next) {
     console.log('getcollections')
-    data.getdatabases().then((result) => {
-        console.log(result)
-        res.format({
-            json: () => {
-                res.send({           
-                    result
-                })
-            }
-        })
-    })
+    MongoClient.connect(url, function(err, client) {
+        var collections_names = []
+        const db = client.db("DataBase")
+        db.listCollections().toArray(function(err, items) {
+           items.forEach(element => {
+            collections_names.push(element)
+            });
+            res.format({
+                json: () => {
+                    res.send({           
+                        collections_names
+                    })
+                }
+            })
+            client.close();
+       })
+      })
 })
 
 router.get('/:id', function(req, res, next) {
