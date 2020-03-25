@@ -18,3 +18,21 @@ router.get('/', function(req, res, next) {
         }
     })
 })
+
+router.get('/sendData', function(req, res, nex) {
+    console.log('sendData')
+    res.format({
+        html: res.render()
+    })
+})
+
+router.post('/',(req, res, next) => {
+    console.log("Poster des données")
+    //console.log(req.body)
+    // data.insert(req.body).then(() => {
+    //     res.format({
+    //       //html: () => { res.redirect(`/games/`) },
+    //       json: () => { res.status(201).send({ code: 'ok' }) }
+    //     })
+    // }) 
+})
