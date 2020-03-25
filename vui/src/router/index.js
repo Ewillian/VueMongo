@@ -20,6 +20,12 @@ const routes = [
     path: '/export',
     name: 'Export',
     component: () => import('../components/ExportVue.vue')
+  },
+
+  {
+    path: '/sendData',
+    name: 'sendData',
+    component: () => import('../components/SendDataVue.vue')
   }
 ]
 
