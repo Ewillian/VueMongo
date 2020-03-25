@@ -48,8 +48,10 @@ export default {
   async created() {
     axios.get("http://localhost:6060/import/collections")
     .then(response => { 
-      this.keys = Object.keys(response.data.json_to_object[0])
-      this.values = Object.values(response.data.json_to_object)
+      console.log(response.data)
+      this.keys = Object.keys(response.data.collections_names[0])
+      this.values = Object.values(response.data.collections_names)
+      console.log(this.values)
     })
     .catch(e => {
       this.errors.push(e)
