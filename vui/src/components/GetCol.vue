@@ -1,35 +1,38 @@
 <template>
 
   <div class="container">
-    <h1>Contents:</h1>
     <p class="error" v-if="error">{{error}}</p>
+    <h1>Vos Collections:</h1>
+    <div v-for="(data, index) in collection_objects"
+              v-bind:item="data"
+              v-bind:index="index"
+              v-bind:key="data.id"> 
+      <h2> {{data.name}} </h2>
 
-    <table>
-      <thead>
-        <tr>
-          <th v-for="(data, index) in keys"
-              v-bind:item="data"
-              v-bind:index="index"
-              v-bind:key="data.id">{{ data }}</th>
-          <th> Actions </th>
+      <table>
+        <thead>
+          <tr>
+            <th v-for="(label, index) in data.keys"
+                v-bind:item="label"
+                v-bind:index="index"
+                v-bind:key="label.id">{{ label }}</th>
+            <th> Actions </th>
         </tr>
-      </thead>
-      <tbody>
-          <tr v-for="(data, index) in values"
-              v-bind:item="data"
-              v-bind:index="index"
-              v-bind:key="data.id">
-            <td v-for="(value, index) in data"
-              v-bind:item="value"
-              v-bind:index="index"
-              v-bind:key="value.id">{{ value }}</td>
-            <router-link :to="{ name: 'GetOne', params: { data_id: data._id}}">📄</router-link>
+        </thead>
+        <tbody>
+          <tr>
+            <td v-for="(value, index) in data.content"
+                v-bind:item="value"
+                v-bind:index="index"
+                v-bind:key="value.id">{{ value }}</td>
+            <router-link :to="{ name: 'GetAll', params: { collection_name: data.name}}">📄</router-link>
             <router-link :to="{ name: 'DelOne', params: { data_id: data._id}}">🗑️</router-link>
-            <router-link :to="{ name: 'UpOne', params: { data_id: data._id}}">✍🏻</router-link>
           </tr>
-      </tbody>
-    </table>
-    
+        </tbody>
+      </table>
+
+      <br>
+    </div>
   </div>
 </template>
 
@@ -41,22 +44,35 @@ export default {
     return {
       keys: [],
       values: [],
+      collection_objects: [],
       error: '',
       text:''
     }
   },
   async created() {
+    let i = 0
     axios.get("http://localhost:6060/import/collections")
     .then(response => { 
-      console.log(response.data)
-      this.keys = Object.keys(response.data.collections_names[0])
-      this.values = Object.values(response.data.collections_names)
-      console.log(this.values)
+      this.keys.push("Collection Name")
+      Object.values(response.data.collections_names).forEach(element => {
+        let Object_Collection = {}
+        Object_Collection.name = element.name
+        i++
+        axios.get(`http://localhost:6060/import/all/${element.name}`)
+        .then(response => {
+          
+          Object_Collection.content = Object.values(response.data.json_to_object[0])
+          Object_Collection.keys = Object.keys(response.data.json_to_object[0])
+          this.collection_objects.push(Object_Collection)
+          console.log(this.collection_objects)
+          console.log(i)
+        }).catch(e => {
+          this.errors = e
+        })
+      })
+    }).catch(e => {
+      this.errors = e
     })
-    .catch(e => {
-      this.errors.push(e)
-    })
-
   },
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
 
   <div class="container">
-    <h1>Contents:</h1>
+    <h1>{{collection_name}}:</h1>
     <p class="error" v-if="error">{{error}}</p>
 
     <table>
@@ -23,7 +23,7 @@
               v-bind:item="value"
               v-bind:index="index"
               v-bind:key="value.id">{{ value }}</td>
-            <router-link :to="{ name: 'GetOne', params: { data_id: data._id}}">📄</router-link>
+            <router-link :to="{ name: 'GetOne', params: { data_id: data._id }}">📄</router-link>
             <router-link :to="{ name: 'DelOne', params: { data_id: data._id}}">🗑️</router-link>
             <router-link :to="{ name: 'UpOne', params: { data_id: data._id}}">✍🏻</router-link>
           </tr>
@@ -41,15 +41,18 @@ export default {
     return {
       keys: [],
       values: [],
+      collection_name: "",
       error: '',
       text:''
     }
   },
   async created() {
-    axios.get("http://localhost:6060/import/")
+
+    axios.get(`http://localhost:6060/import/all/${this.$route.params.collection_name}`)
     .then(response => { 
       this.keys = Object.keys(response.data.json_to_object[0])
       this.values = Object.values(response.data.json_to_object)
+      this.collection_name = this.$route.params.collection_name
     })
     .catch(e => {
       this.errors.push(e)

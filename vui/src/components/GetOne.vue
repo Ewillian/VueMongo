@@ -39,7 +39,7 @@ export default {
     }
   },
   async created() {
-    axios.get(`http://localhost:6060/import/${this.$route.params.data_id}`)
+    axios.get(`http://localhost:6060/import/${this.$route.params.collection_name}/${this.$route.params.data_id}`)
     .then(response => { 
       this.keys = Object.keys(response.data.json_to_object)
       this.values = Object.values(response.data.json_to_object)

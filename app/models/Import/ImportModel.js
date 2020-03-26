@@ -1,21 +1,23 @@
 const mongoose = require('mongoose')
 var Schema = mongoose.Schema
 const import_schema = new Schema({ any: Schema.Types.Mixed}, {strict: false})
-let data = mongoose.model('tests', import_schema);
 
 module.exports = {
 
-  getone: async(data_id) => {
+  getone: async(data_id, collection_name) => {
+    let data = mongoose.model(collection_name, import_schema);
     var result = data.findOne({"_id": data_id})
     return await result
   },
 
-  getall: async() => {
+  getall: async(collection_name) => {
+    let data = mongoose.model(collection_name, import_schema);
     var result = data.find({})
     return await result
   },
 
-  insert: async(params) =>{
+  insert: async(collection_name, params) =>{
+    let data = mongoose.model(collection_name, import_schema);
     console.log("insert")
     let collection = params;
     JSON.stringify(collection)
@@ -30,13 +32,15 @@ module.exports = {
     })
   },
 
-  update: async(data_id, params) => {
+  update: async(collection_name, data_id, params) => {
+    let data = mongoose.model(collection_name, import_schema);
     const upProduct = await product.findOne({_id: data_id});
     
     await upProduct.save();
   },
   
-  remove: async(data_id) => {
+  remove: async(collection_name, data_id) => {
+    let data = mongoose.model(collection_name, import_schema);
     console.log("Delete")
     await data.deleteOne({"_id": data_id});
   }

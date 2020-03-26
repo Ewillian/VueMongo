@@ -6,9 +6,9 @@ const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
 const url = "mongodb://localhost:27017"
 
-router.get('/', function(req, res, next) {
-    console.log('getall')
-    data.getall().then((result) => {
+router.get('/all/:collection_names', function(req, res, next) {
+    console.log('getall', req.params.collection_names)
+    data.getall(req.params.collection_names).then((result) => {
         console.log(result)
         let json_to_object = JSON.parse(JSON.stringify(result))
         res.format({
@@ -42,8 +42,8 @@ router.get('/collections', function(req, res, next) {
       })
 })
 
-router.get('/:id', function(req, res, next) {
-    console.log('getone')
+router.get('/:collection_name/:id', function(req, res, next) {
+    console.log('getone', req.params.id, req.params.collection_name)
     var id = mongoose.Types.ObjectId(req.params.id);
     data.getone(id).then((result) => {
         console.log(result)
@@ -58,10 +58,10 @@ router.get('/:id', function(req, res, next) {
     })
 })
 
-router.post('/',(req, res, next) => {
+router.post('/newdata/:collection_name',(req, res, next) => {
     console.log("POST a new data")
     console.log(req.body)
-    data.insert(req.body).then(() => {
+    data.insert(req.params.collection_name, req.body).then(() => {
         res.format({
           json: () => { res.status(201).send({ code: 'ok' }) }
         })
