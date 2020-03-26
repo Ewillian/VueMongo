@@ -4,23 +4,31 @@
     <h3>Saisir un nom pour la base</h3>
 
     <form action="" method="post">
-      <input type="text" id="CollectionName" value="">
+      <input type="text" id="collectionName" value="">
       <br/><br/><label for="input-file">Fichier à importer</label><br>
       <input type="file" id="input-file" accept='.json'><br/><br/>
       <textarea id="content-target"></textarea><br/>
-      <router-link to="/sendData"><button id='send' type='submit'>Envoyer</button></router-link>
+      <router-link :to="{ name: 'sendData', params: {collectionName}}"><button id='send' type='submit'>Envoyer</button></router-link>
     </form>
 
   </div>
 </template>
 
 <script>
-
-
 import ExportService from '../ExportService.js'
+import { collectionName } from '../ExportService'
 import axios from 'axios'
 export default {
-  name: 'ExportVue'
+  name: 'ExportVue',
+  data () {
+    return {
+      collectionName: ""
+    }
+  },
+  async created() {
+    this.collectionName = collectionName
+    //console.log(collectionName)
+  } 
 }
 </script>
 

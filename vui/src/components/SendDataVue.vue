@@ -7,8 +7,9 @@
 </template>
 
 <script>
-
+import ExportService from '../ExportService'
 import axios from 'axios'
+
 export default {
   name: 'SendDataVue',
   data() {
@@ -20,6 +21,7 @@ export default {
       axios.post(`http://localhost:6060/export/`)
       .then(response => {
           this.text = "Vous demande a été effectuée !"
+          console.log(this.$route.params.collectionName)
       })
   }
 }
