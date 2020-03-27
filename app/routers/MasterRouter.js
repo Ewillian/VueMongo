@@ -8,6 +8,7 @@ const export_router = require('./Import/ExportRouteur.js')
 // URL to routers
 router.use('/import', import_router)
 router.use('/export', export_router)
+router.use('/export/createCollection', export_router)
 router.use('/sendData', export_router)
 
 // Export

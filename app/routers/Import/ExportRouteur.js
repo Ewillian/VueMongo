@@ -3,6 +3,10 @@ const bodyparser = require('body-parser')
 
 const model = require('../../models/Export/ExportModel')
 
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
+require('../../index')
+
 module.exports = router
 
 router.get('/', function(req, res, next) {
@@ -19,15 +23,34 @@ router.get('/', function(req, res, next) {
     })
 })
 
-router.get('/sendData', function(req, res, nex) {
-    console.log('sendData')
-    res.format({
-        html: res.render()
-    })
-})
-
 router.post('/',(req, res, next) => {
     console.log("Poster des données")
+    const schemaJson = new Schema({ any: Schema.Types.Mixed}, {strict: false})
+    const jsonCollection = mongoose.model('bidule2', schemaJson)
+    const jsonContent = new jsonCollection({
+        "employees": 
+        [
+            {
+                "firstName": "Anna",
+                "lastName": "Meyers"
+            },
+            {
+                "firstName": "Betty",
+                "lastName": "Layers"
+            },
+            {
+                "firstName": "Carl",
+                "lastName": "Louis"
+            },
+            {
+                "firstName": "Bruce",
+                "lastName": "Wayne"
+            }
+        ]
+   }
+   )
+    jsonContent.save()
+})
     //console.log(req.body)
     // data.insert(req.body).then(() => {
     //     res.format({
@@ -35,4 +58,3 @@ router.post('/',(req, res, next) => {
     //       json: () => { res.status(201).send({ code: 'ok' }) }
     //     })
     // }) 
-})

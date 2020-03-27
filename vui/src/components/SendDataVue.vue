@@ -7,21 +7,22 @@
 </template>
 
 <script>
-import ExportService from '../ExportService'
+import ExportService, { collectionName } from '../ExportService'
 import axios from 'axios'
 
 export default {
   name: 'SendDataVue',
   data() {
       return {
-          text:'Vous envoyez des données'
+          text:''
       }
   },
   async created() {
       axios.post(`http://localhost:6060/export/`)
       .then(response => {
-          this.text = "Vous demande a été effectuée !"
-          console.log(this.$route.params.collectionName)
+        this.text = "Collection Créée avec succès ! :-)"
+          console.log("Poster des données via la route sendData")
+          console.log(collectionName)
       })
   }
 }
