@@ -28,7 +28,7 @@
               v-bind:key="value.id">{{ value }}</td>
             <router-link :to="{ name: 'GetOne', params: { data_id: data._id , collection_name: collection_name}}">📄</router-link>
             <router-link :to="{ name: 'DelOne', params: { data_id: data._id , collection_name: collection_name}}">🗑️</router-link>
-            <router-link :to="{ name: 'UpOne', params: { data_id: data._id , collection_name: collection_name}}">✍🏻</router-link>
+            <router-link :to="{ name: 'PatchOne', params: { data_id: data._id , collection_name: collection_name}}">✍🏻</router-link>
           </tr>
       </tbody>
     </table>

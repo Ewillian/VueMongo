@@ -29,15 +29,15 @@ const routes = [
   },
 
   {
-    path: '/upone',
-    name: 'UpOne',
-    component: () => import('../components/UpOne.vue')
-  },
-
-  {
     path: '/getcols',
     name: 'GetCols',
     component: () => import('../components/GetCol.vue')
+  },
+
+  {
+    path: '/patchone',
+    name: 'PatchOne',
+    component: () => import('../components/PatchOne.vue')
   }
 ]
 

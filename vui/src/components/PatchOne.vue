@@ -1,8 +1,12 @@
 <template>
 
   <div class="container">
-    <h1>Modification</h1>
+    <div id="nav">
+      <router-link :to="{ name: 'GetAll', params: { collection_name: this.$route.params.collection_name}}">Retour</router-link>
+    </div>
+    <h1>Contenu</h1>
     <p class="error" v-if="error">{{error}}</p>
+
     <table>
       <thead>
         <tr>
@@ -21,47 +25,42 @@
           </tr>
       </tbody>
     </table>
-  <div v-for="(data, index) in keys"
-              v-bind:item="data"
-              v-bind:index="index"
-              v-bind:key="data.id">
-    <p>
-      <label for="name">{{data}}</label>
-        <input
-          id="name"
-          v-model="name"
-          type="text"
-          name="name"
-        >
-    </p>
-  </div>
-
-
-
+    
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 export default {
-  name: 'UpOneVue',
+  name: 'PatchOne',
   data() {
     return {
-      text:'',
       keys: [],
-      values: []
+      values: [],
+      error: '',
+      text:''
     }
   },
   async created() {
-    axios.get(`http://localhost:6060/import/${this.$route.params.data_id}`)
-    .then(response => { 
-      this.keys = Object.keys(response.data.json_to_object)
-      let i = 0;
-      this.values = Object.values(response.data.json_to_object)
+    console.log("ezrfze", this.$route.params)
+
+    axios({
+      method: 'post',
+      url: `http://localhost:6060/import/fromcollection/${this.$route.params.data_id}`,
+      headers: {'Content-Type': 'application/json'}, 
+      data: {
+        collection_name: this.$route.params.collection_name
+      }
     })
-    .catch(e => {
-      this.errors.push(e)
-    })
+     .then(response => {  
+       this.keys = Object.keys(response.data.json_to_object)
+       this.values = Object.values(response.data.json_to_object)
+       console.log(this.keys)
+       console.log(this.values)
+     })
+     .catch(e => {
+       this.errors = e
+     })
   },
 }
 </script>
@@ -123,5 +122,6 @@ th, td {
   min-width: 120px;
   padding: 10px 20px;
 }
+
 
 </style>
