@@ -17,13 +17,14 @@ export default {
       }
   },
   async created() {
-    console.log(this.$route.params.collectionName)
+    console.log(this.$route.params.fileContent)
       axios({
         method: 'post',
         url: `http://localhost:6060/export/createCollection/${this.$route.params.collectionName}`,
         headers: {'Content-Type': 'application/json'}, 
         data: {
-          collectionName: this.$route.params.collectionName
+          collectionName: this.$route.params.collectionName,
+          fileContent: this.$route.params.fileContent
         }
       })
   }
