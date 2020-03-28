@@ -4,11 +4,16 @@
     <h3>Saisir un nom pour la base</h3>
 
     <form action="" method="post">
-      <input type="text" id="collectionName" value="">
-      <br/><br/><label for="input-file">Fichier à importer</label><br>
+      <input id="collectionName" @input="handleCollection($event.target.value)">
+      <br/><br/><label>Nom saisi > {{collectionName}}</label><br>
+      <br/><br/><label for="input-file">Fichier à importer :</label><br>
       <input type="file" id="input-file" accept='.json'><br/><br/>
-      <textarea id="content-target"></textarea><br/>
-      <router-link :to="{ name: 'sendData', params: {collectionName}}"><button id='send' type='submit'>Envoyer</button></router-link>
+      <textarea v-model="fileContent" id="content-target"></textarea><br/>
+
+            <span>Le message multiligne est :</span>
+      <p style="white-space: pre-line;">{{ fileContent }}</p><br>
+
+      <router-link :to="{ name: 'sendData', params: {collectionName, fileContent}}"><button id='send' type='submit'>Envoyer</button></router-link>
     </form>
 
   </div>
@@ -16,20 +21,26 @@
 
 <script>
 import ExportService from '../ExportService.js'
-import { collectionName } from '../ExportService'
 import axios from 'axios'
 export default {
   name: 'ExportVue',
-  data () {
+  data: function() {
     return {
-      collectionName: ""
-    }
+      collectionName: "",
+      fileContent: ""
+    };
   },
-  async created() {
-    this.collectionName = collectionName
-    //console.log(collectionName)
-  } 
-}
+
+  methods: {
+    handleCollection(value) {
+      this.collectionName = value;
+    },
+    handleJsonFile(value) {
+        this.fileContent = value;
+      }
+    }
+  }
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
