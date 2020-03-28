@@ -1,13 +1,16 @@
 const router = require('express').Router()
 const bodyparser = require('body-parser')
 const data = require('../../models/Import/ImportModel.js')
-const mongoose = require('mongoose')
 const MongoClient = require('mongodb').MongoClient;
-const assert = require('assert');
 const url = "mongodb://localhost:27017"
+const mongoose = require('mongoose')
+
+router.use(bodyparser.json())
+router.use(bodyparser.urlencoded({
+        extended: true
+}))
 
 router.get('/all/:collection_names', function(req, res, next) {
-    console.log('getall', req.params.collection_names)
     data.getall(req.params.collection_names).then((result) => {
         console.log(result)
         let json_to_object = JSON.parse(JSON.stringify(result))
@@ -22,7 +25,6 @@ router.get('/all/:collection_names', function(req, res, next) {
 })
 
 router.get('/collections', function(req, res, next) {
-    console.log('getcollections')
     MongoClient.connect(url, function(err, client) {
         var collections_names = []
         const db = client.db("DataBase")
@@ -42,20 +44,19 @@ router.get('/collections', function(req, res, next) {
       })
 })
 
-router.get('/:collection_name/:id', function(req, res, next) {
-    console.log('getone', req.params.id, req.params.collection_name)
-    var id = mongoose.Types.ObjectId(req.params.id);
-    data.getone(id).then((result) => {
-        console.log(result)
-        let json_to_object = JSON.parse(JSON.stringify(result))
-        res.format({
-            json: () => {
-                res.send({           
-                    json_to_object
-                })
-            }
-        })
-    })
+router.post('/fromcollection/:id', function(req, res, next) {
+     var id = mongoose.Types.ObjectId(req.params.id);
+     data.getone(id, req.body.collection_name).then((result) => {
+         console.log(result)
+         let json_to_object = JSON.parse(JSON.stringify(result))
+         res.format({
+             json: () => {
+                 res.send({           
+                     json_to_object
+                 })
+             }
+         })
+     })
 })
 
 router.post('/newdata/:collection_name',(req, res, next) => {
@@ -68,8 +69,9 @@ router.post('/newdata/:collection_name',(req, res, next) => {
     }) 
 })
 
-router.delete('/:data_id', (req, res, next) => {
-    data.remove(req.params.data_id).then(() => {
+router.delete('/:id', (req, res, next) => {
+    console.log('delone', req.params.id, req.body.collection_name)
+    data.remove(req.body.collection_name, req.params.id).then(() => {
       res.format({
         json: () => { res.status(200).send({ message: 'success' }) }
       })

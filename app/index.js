@@ -18,6 +18,9 @@ app.use(cors())
      next();
  })
  
+ app.use(express.urlencoded({ extended: true }));
+ app.use(express.json());
+
 //Mongoose Connection Test
 const connection = mongoose.connect("mongodb://localhost:27017/DataBase", { useNewUrlParser: true, useUnifiedTopology: true})
 const db = mongoose.connection

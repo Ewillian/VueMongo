@@ -17,17 +17,35 @@ export default {
   name: 'DelOneVue',
   data() {
     return {
-      text:''
+      text:'',
+      error: ''
     }
   },
   async created() {
-    axios.delete(`http://localhost:6060/import/${this.$route.params.data_id}`)
-    .then(response => { 
-      this.text = "Votre demande à été éffectué !"
+      console.log("id: ", this.$route.params.data_id, " name:", this.$route.params.collection_name);
+      axios({
+      method: 'delete',
+      url: `http://localhost:6060/import/${this.$route.params.data_id}`,
+      headers: {'Content-Type': 'application/json'}, 
+      data: {
+        collection_name: this.$route.params.collection_name
+      }
     })
-    .catch(e => {
-      this.errors.push(e)
-    })
+     .then(response => { 
+       this.text = "Votre demande à été éffectué !"
+
+     })
+     .catch(e => {
+       this.errors = e
+     })
+
+    // axios.delete(`http://localhost:6060/import/${this.$route.params.data_id}`)
+    // .then(response => { 
+    //   this.text = "Votre demande à été éffectué !"
+    // })
+    // .catch(e => {
+    //   this.errors.push(e)
+    // })
 
   },
 }

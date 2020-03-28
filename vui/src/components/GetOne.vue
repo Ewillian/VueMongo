@@ -1,7 +1,10 @@
 <template>
 
   <div class="container">
-    <h1>Contents:</h1>
+    <div id="nav">
+      <router-link :to="{ name: 'GetAll', params: { collection_name: this.$route.params.collection_name}}">Retour</router-link>
+    </div>
+    <h1>Contenu</h1>
     <p class="error" v-if="error">{{error}}</p>
 
     <table>
@@ -39,17 +42,26 @@ export default {
     }
   },
   async created() {
-    axios.get(`http://localhost:6060/import/${this.$route.params.collection_name}/${this.$route.params.data_id}`)
-    .then(response => { 
-      this.keys = Object.keys(response.data.json_to_object)
-      this.values = Object.values(response.data.json_to_object)
-      console.log(this.keys)
-      console.log(this.values)
-    })
-    .catch(e => {
-      this.errors.push(e)
-    })
+    console.log("ezrfze", this.$route.params)
 
+    axios({
+      method: 'post',
+      url: `http://localhost:6060/import/fromcollection/${this.$route.params.data_id}`,
+      headers: {'Content-Type': 'application/json'}, 
+      data: {
+        collection_name: this.$route.params.collection_name
+      }
+    })
+     .then(response => {  
+       this.keys = Object.keys(response.data.json_to_object)
+       this.values = Object.values(response.data.json_to_object)
+       console.log(this.keys)
+       console.log(this.values)
+      
+     })
+     .catch(e => {
+       this.errors = e
+     })
   },
 }
 </script>

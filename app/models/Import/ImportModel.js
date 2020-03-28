@@ -39,9 +39,9 @@ module.exports = {
     await upProduct.save();
   },
   
-  remove: async(collection_name, data_id) => {
+  remove: async(collection_name, id) => {
     let data = mongoose.model(collection_name, import_schema);
-    console.log("Delete")
-    await data.deleteOne({"_id": data_id});
+    console.log("Delete: ", collection_name, id)
+    await data.deleteOne({"_id": id});
   }
 } 

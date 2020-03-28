@@ -4,7 +4,6 @@
   <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/upload">Upload</router-link> |
-      <router-link to="/getall">Afficher l'ensemble des données</router-link> |
       <router-link to="/getcols">Collections</router-link>
     </div>
     <router-view/>
