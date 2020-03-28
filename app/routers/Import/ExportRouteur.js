@@ -27,11 +27,12 @@ router.get('/', function(req, res, next) {
 router.post('/:collectionName',(req, res, next) => {
     console.log("Poster des données")
     fileContent = req.body.fileContent
+    JSONfileContent = JSON.parse(fileContent)
     const schemaJson = new Schema({ any: Schema.Types.Mixed}, {strict: false})
     const jsonCollection = mongoose.model(req.params.collectionName, schemaJson)
-    const jsonContent = new jsonCollection({
-        fileContent
-    })
+    const jsonContent = new jsonCollection(
+        JSONfileContent
+    )
     jsonContent.save()
 })
     //console.log(req.body)
