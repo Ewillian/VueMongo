@@ -57,7 +57,6 @@ export default {
        this.values = Object.values(response.data.json_to_object)
        console.log(this.keys)
        console.log(this.values)
-      
      })
      .catch(e => {
        this.errors = e

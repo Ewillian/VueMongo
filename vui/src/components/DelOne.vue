@@ -1,10 +1,9 @@
 <template>
 
   <div class="container">
-    <h1>Suppréssion en cours...</h1>
+    <h1>{{text}}</h1>
     <p class="error" v-if="error">{{error}}</p>
-    <p> {{text}} </p>
-    <router-link to="/getall">Retour à l'afficage des données.</router-link>
+    <router-link :to="{ name: 'GetAll', params: { collection_name: this.$route.params.collection_name}}">Retour à l'affichage des données.</router-link>
   </div>
 </template>
 
