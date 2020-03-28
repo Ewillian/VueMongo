@@ -1,8 +1,6 @@
 import axios from 'axios'
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 // A CHANGER --> const url = "http://localhost:6060/import/5e67bbe54b945e577482035f"
-var jsonFileContent
-var collectionName = ''
 
 window.addEventListener("load", function(){
     if(document.getElementById('collectionName').value.length == 0){
@@ -10,12 +8,6 @@ window.addEventListener("load", function(){
         //console.log('Collection Name is empty')
         console.log(document.getElementById('collectionName').value.length)
         
-    }
-
-    document.getElementById('send').onclick=function(){
-        collectionName = document.getElementById('collectionName').value
-        console.log(collectionName)
-        console.log(jsonFileContent)
     }
     
     document.getElementById('input-file').addEventListener('change', getFile)
@@ -57,7 +49,6 @@ function getFile(event) {
 function placeFileContent(target, file) {
     readFileContent(file).then(content => {
         target.value = content
-        jsonFileContent = JSON.parse(content)
     })
 }
 
@@ -69,5 +60,3 @@ function readFileContent(file) {
     reader.readAsText(file)
   })
 }
-
-export {collectionName}
