@@ -8,7 +8,7 @@
       <br/><br/><label>Nom saisi > {{collectionName}}</label><br>
       <br/><br/><label for="input-file">Fichier à importer :</label><br>
       <input type="file" id="input-file" accept='.json'><br/><br/>
-      <textarea v-model="fileContent" id="content-target"></textarea><br/>
+      <textarea id="content-target" @input="handleJsonFile($event.target.value)"></textarea><br/>
 
             <span>Le message multiligne est :</span>
       <p style="white-space: pre-line;">{{ fileContent }}</p><br>
@@ -37,9 +37,10 @@ export default {
     },
     handleJsonFile(value) {
         this.fileContent = value;
-      }
+        console.log(value)
     }
   }
+}
 
 </script>
 

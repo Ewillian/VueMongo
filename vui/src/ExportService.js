@@ -1,42 +1,25 @@
 import axios from 'axios'
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-// A CHANGER --> const url = "http://localhost:6060/import/5e67bbe54b945e577482035f"
 
 window.addEventListener("load", function(){
     if(document.getElementById('collectionName').value.length == 0){
         document.getElementById('send').disabled = true
-        //console.log('Collection Name is empty')
-        console.log(document.getElementById('collectionName').value.length)
-        
     }
     
     document.getElementById('input-file').addEventListener('change', getFile)
+    document.getElementById('input-file').onchange=function(){
+        document.getElementById('content-target').focus()
+    }
 
     //Check if Collection Name input is empty or not
     document.getElementById('collectionName').onchange=function(){
         if(document.getElementById('collectionName').value.length == 0){
             document.getElementById('send').disabled = true
-            console.log('vide')
-            console.log(document.getElementById('collectionName').value.length)
         }else if(document.getElementById('collectionName').value.length != 1){
-            console.log('there is a name')
             document.getElementById('send').disabled = false
         }
     }
-     
-
-    
 })
-
-function lockButton() {
-    if(document.getElementById('collectionName').length = 1){
-        document.getElementById('send').disabled = true
-        console.log('vide')
-    }else if(document.getElementById('collectionName').length > 1){
-        console.log('there is a name')
-        document.getElementById('send').disabled = false
-    } 
-}
 
 
 function getFile(event) {
