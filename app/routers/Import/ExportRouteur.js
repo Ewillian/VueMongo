@@ -11,7 +11,7 @@ require('../../index')
 module.exports = router
 
 router.get('/', function(req, res, next) {
-    console.log('export')
+    console.log('upload')
     res.format({
         // json: () => {
         //     res.send({                  
