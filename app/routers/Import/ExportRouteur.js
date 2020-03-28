@@ -4,6 +4,7 @@ const bodyparser = require('body-parser')
 const model = require('../../models/Export/ExportModel')
 
 const mongoose = require('mongoose')
+mongoose.pluralize(null)
 const Schema = mongoose.Schema
 require('../../index')
 
@@ -23,10 +24,10 @@ router.get('/', function(req, res, next) {
     })
 })
 
-router.post('/',(req, res, next) => {
+router.post('/:collectionName',(req, res, next) => {
     console.log("Poster des données")
     const schemaJson = new Schema({ any: Schema.Types.Mixed}, {strict: false})
-    const jsonCollection = mongoose.model('bidule2', schemaJson)
+    const jsonCollection = mongoose.model(req.params.collectionName, schemaJson)
     const jsonContent = new jsonCollection({
         "employees": 
         [
