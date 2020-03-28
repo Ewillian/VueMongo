@@ -78,5 +78,14 @@ router.delete('/:id', (req, res, next) => {
     }).catch(next)
 })
 
+router.delete('/collection/:collection_name', (req, res, next) => {
+    console.log('delCol', req.params.collection_name)
+    data.dropDatabase(req.params.collection_name).then(() => {
+      res.format({
+        json: () => { res.status(200).send({ message: 'success' }) }
+      })
+    }).catch(next)
+})
+
 
 module.exports = router

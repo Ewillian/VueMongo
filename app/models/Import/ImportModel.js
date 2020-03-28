@@ -43,5 +43,17 @@ module.exports = {
     let data = mongoose.model(collection_name, import_schema);
     console.log("Delete: ", collection_name, id)
     await data.deleteOne({"_id": id});
-  }
+  },
+
+  dropDatabase: async(collection_name) => {
+    const mongooseconnection = require("mongoose");
+    mongooseconnection.connect("mongodb://localhost:27017/DataBase", { useNewUrlParser: true, useUnifiedTopology: true})
+    const connection = mongooseconnection.connection;
+    console.log("Init Drop", collection_name)
+    connection.once("open", function() {
+      connection.db.dropCollection(collection_name,function(err, result) {
+        console.log("Collection droped");
+      })
+    })
+  },
 } 
