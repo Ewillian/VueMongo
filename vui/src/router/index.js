@@ -38,6 +38,18 @@ const routes = [
     path: '/patchone',
     name: 'PatchOne',
     component: () => import('../components/PatchOne.vue')
+  },
+
+  {
+    path: '/upload',
+    name: 'Upload',
+    component: () => import('../components/UploadVue.vue')
+  },
+
+  {
+    path: '/sendData',
+    name: 'sendData',
+    component: () => import('../components/SendDataVue.vue')
   }
 ]
 
