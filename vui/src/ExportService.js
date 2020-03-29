@@ -2,6 +2,7 @@ import axios from 'axios'
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
 window.addEventListener("load", function(){
+
     if(document.getElementById('collectionName').value.length == 0){
         document.getElementById('send').disabled = true
     }
@@ -20,7 +21,6 @@ window.addEventListener("load", function(){
         }
     }
 })
-
 
 function getFile(event) {
     const input = event.target

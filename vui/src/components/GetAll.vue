@@ -3,7 +3,7 @@
   <div class="container">
     <div id="nav">
       <router-link :to="{ name: 'GetCols'}">Retour</router-link> |
-      <!--<router-link :to="{ name: 'AddData'}">Ajouter une donnée</router-link>-->
+      <router-link :to="{ name: 'AddData', params: {collection_name: collection_name}}">Ajouter une donnée</router-link>
     </div>
     <h1>{{collection_name}}:</h1>
     <p class="error" v-if="error">{{error}}</p>
