@@ -35,6 +35,14 @@ router.post('/:collectionName',(req, res, next) => {
     )
     jsonContent.save()
 })
+
+router.post('/insertData/:collectionName', (req, res, next) => {
+    console.log('ajouter des données')
+    fileContent = req.body.fileContent
+    console.log('Nom collection : ' + req.params.collectionName)
+    console.log('Contenu fichier : ' + fileContent)
+    mongoose.connection.collection(req.params.collectionName).insertOne(JSON.parse(fileContent))
+})
     //console.log(req.body)
     // data.insert(req.body).then(() => {
     //     res.format({

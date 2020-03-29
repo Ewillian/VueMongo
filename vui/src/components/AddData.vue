@@ -1,9 +1,12 @@
 <template>
   <div class="container">
-    <input id="collectionName" value='d' style="display: none">
-    <h1>{{collectionName}}</h1>
+
+    <h3>Ajouter un document dans la collection</h3>
+    <h2>{{collectionName}}</h2>
 
     <form action="" method="post">
+      <input id="collectionName" value='d' style="display: none">
+      <br/><br/><label>Nom saisi > {{collectionName}}</label><br>
       <br/><br/><label for="input-file">Fichier à importer :</label><br>
       <input type="file" id="input-file" accept='.json'><br/><br/>
       <textarea id="content-target" @input="handleJsonFile($event.target.value)"></textarea><br/>
@@ -11,7 +14,7 @@
             <span>Le message multiligne est :</span>
       <p style="white-space: pre-line;">{{ fileContent }}</p><br>
 
-      <router-link :to="{ name: 'sendData', params: {collectionName, fileContent}}"><button id='send' type='submit'>Envoyer</button></router-link>
+      <router-link :to="{ name: 'InsertData', params: {collectionName, fileContent}}"><button id='send' type='submit'>Envoyer</button></router-link>
     </form>
 
   </div>
@@ -30,9 +33,6 @@ export default {
   },
 
   methods: {
-    handleCollection(value) {
-      this.collectionName = value;
-    },
     handleJsonFile(value) {
         this.fileContent = value;
         console.log(value)
