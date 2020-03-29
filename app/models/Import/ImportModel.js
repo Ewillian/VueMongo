@@ -16,22 +16,6 @@ module.exports = {
     return await result
   },
 
-  insert: async(collection_name, params) =>{
-    let data = mongoose.model(collection_name, import_schema);
-    console.log("insert")
-    let collection = params;
-    JSON.stringify(collection)
-    let new_data = new data(collection)
-    console.log(new_data)
-    new_data.save()
-    .then(() => {
-      return "201"
-    })
-    .catch(err => {
-      return err
-    })
-  },
-
   update: async(collection_name, data_id, params) => {
     let data = mongoose.model(collection_name, import_schema);
     const upProduct = await product.findOne({_id: data_id});
