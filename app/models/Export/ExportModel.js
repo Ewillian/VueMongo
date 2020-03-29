@@ -108,46 +108,38 @@ module.exports = {
     delete example_keys["_id"]
     delete example_keys['__v']
     example_keys = Object.keys(example_keys)
-    console.log("example_keys",example_keys)
 
     // Traitement des clefs de donnée cible
-    target_keys = Object.keys(params)
-    console.log("t_keys",target_keys)
-    
+    target_keys = Object.keys(JSON.parse(params))
+
     for (let index = 0; index < target_keys.length; index++) {
       const element = target_keys[index]
       if(example_keys[index] != element){
         test = false
       }
     }
-    console.log(test)
+
     // Vérification
     if(test == true){
       // Dans Base de donnée
       console.log("push")
-      const up_data = await data.findOne({"_id": data_id});
-      console.log(up_data)
-
-      // await upUser.save()
-      // .catch(err => {
-      //   return err
-      // })
+      const entries = example_keys
+      const updates = {}
+      for (let i = 0; i < entries.length; i++) {
+        updates[entries[i]] = Object.values(JSON.parse(params))[i]
+      }
+      data.update({
+        "_id": data_id} , {
+          $set: updates
+        } , 
+        function (err , success) {
+          if (err) throw (err);
+      })
     }
     else{
       // Error
       return false
     }
-  },
-
-  updfdfate: async(billId, params) => {
-    const upBill = await bill.findOne({rowid: billId});
-    upBill.client = params.pseudo;
-    upBill.create_date = params.create_date;
-    upBill.status = params.status;
-    upBill.payment_date = params.payment_date;
-    upBill.price = params.price;
-    upBill.products = params.products;
-    await upUser.save();
   }
   
 } 

@@ -45,12 +45,12 @@ router.post('/insertData/:collectionName',(req, res, next) => {
             }
         }).catch((e) =>{
             res.format({
-                json: () => {res.status(500).send({ code: 'Internal Server Error'})}
+                json: () => {res.status(500).send({ code: 'Internal Server Error 2'})}
               })
         }) 
     }).catch((e) =>{
         res.format({
-            json: () => {res.status(500).send({ code: 'Internal Server Error'})}
+            json: () => {res.status(500).send({ code: 'Internal Server Error 1'})}
           })
     })
 })
@@ -104,7 +104,6 @@ router.put('/data/:data_id', function(req, res, next) {
     let collection_name = req.body.collection_name
     let params = req.body.content[0]
     params = JSON.stringify(params)
-    console.log(req.params.data_id)
     model.get(req.params.data_id, collection_name).then((result) => {
         let json_to_object = JSON.parse(JSON.stringify(result))
         model.update(req.params.data_id, collection_name, params, json_to_object).then((result) => {
@@ -114,5 +113,5 @@ router.put('/data/:data_id', function(req, res, next) {
         })
     })
 })
-    
+
 module.exports = router
