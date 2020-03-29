@@ -5,7 +5,6 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/upload">Upload</router-link> |
       <router-link to="/getcols">Collections</router-link>
-      <router-link to="/export">Export</router-link>
     </div>
     <router-view/>
   </div>
