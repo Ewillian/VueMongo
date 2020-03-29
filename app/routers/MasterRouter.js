@@ -9,7 +9,7 @@ const export_router = require('./Import/ExportRouteur.js')
 router.use('/import', import_router)
 router.use('/upload', export_router)
 router.use('/upload/:id', export_router)
-router.use('/sendData', export_router)
+
 
 // Export
 module.exports = router
