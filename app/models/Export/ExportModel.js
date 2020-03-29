@@ -5,8 +5,9 @@ mongoose.pluralize(null)
 
 module.exports = {
 
-  get: async(data_id) => {
-    var result = data.findOne({"id": data_id})
+  get: async(data_id, collection_name) => {
+    let data = mongoose.model(collection_name, export_schema);
+    var result = data.findOne({"_id": data_id})
     return await result;
   },
 
@@ -25,11 +26,9 @@ module.exports = {
     delete example_keys["_id"]
     delete example_keys['__v']
     example_keys = Object.keys(example_keys)
-    console.log(example_keys)
 
     // Traitement des clefs de donnée cible
     target_keys = Object.keys(params)
-    console.log(target_keys)
     
     for (let index = 0; index < target_keys.length; index++) {
       const element = target_keys[index]
@@ -97,5 +96,58 @@ module.exports = {
       // Error
       return false
     }
+  },
+
+  update: async(data_id, collection_name, params, example_datas) =>{
+    let data = mongoose.model(collection_name, export_schema)
+    let test = true
+
+    // Traitement des clefs de donnée exemple
+    console.log(example_datas)
+    example_keys = example_datas
+    delete example_keys["_id"]
+    delete example_keys['__v']
+    example_keys = Object.keys(example_keys)
+    console.log("example_keys",example_keys)
+
+    // Traitement des clefs de donnée cible
+    target_keys = Object.keys(params)
+    console.log("t_keys",target_keys)
+    
+    for (let index = 0; index < target_keys.length; index++) {
+      const element = target_keys[index]
+      if(example_keys[index] != element){
+        test = false
+      }
+    }
+    console.log(test)
+    // Vérification
+    if(test == true){
+      // Dans Base de donnée
+      console.log("push")
+      const up_data = await data.findOne({"_id": data_id});
+      console.log(up_data)
+
+      // await upUser.save()
+      // .catch(err => {
+      //   return err
+      // })
+    }
+    else{
+      // Error
+      return false
+    }
+  },
+
+  updfdfate: async(billId, params) => {
+    const upBill = await bill.findOne({rowid: billId});
+    upBill.client = params.pseudo;
+    upBill.create_date = params.create_date;
+    upBill.status = params.status;
+    upBill.payment_date = params.payment_date;
+    upBill.price = params.price;
+    upBill.products = params.products;
+    await upUser.save();
   }
+  
 } 
