@@ -86,6 +86,20 @@ router.post('/insertManyData/:collectionName',(req, res, next) => {
     })
 })
 
+mongoose.pluralize(null)
+const Schema = mongoose.Schema
+router.post('/createCollection/:collectionName',(req, res, next) => {
+    console.log("Poster des données")
+    fileContent = req.body.fileContent
+    JSONfileContent = JSON.parse(fileContent)
+    const schemaJson = new Schema({ any: Schema.Types.Mixed}, {strict: false})
+    const jsonCollection = mongoose.model(req.params.collectionName, schemaJson)
+    const jsonContent = new jsonCollection(
+        JSONfileContent
+    )
+    jsonContent.save()
+})
+
 router.put('/data/:data_id', function(req, res, next) {
     let collection_name = req.body.collection_name
     let params = req.body.content[0]
