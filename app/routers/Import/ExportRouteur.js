@@ -2,7 +2,6 @@ const router = require('express').Router()
 const bodyparser = require('body-parser')
 const model = require('../../models/Export/ExportModel.js')
 const mongoose = require('mongoose')
-require('../../index')
 
 router.use(bodyparser.json())
 router.use(bodyparser.urlencoded({
@@ -45,13 +44,13 @@ router.post('/insertData/:collectionName',(req, res, next) => {
             }
         }).catch((e) =>{
             res.format({
-                json: () => {res.status(500).send({ code: 'Internal Server Error 2'})}
+                json: () => {res.status(500).send({ code: err})}
               })
         }) 
-    }).catch((e) =>{
+    }).catch((err) =>{
         res.format({
-            json: () => {res.status(500).send({ code: 'Internal Server Error 1'})}
-          })
+            json: () => {res.status(500).send({ code: err})}
+        })
     })
 })
 

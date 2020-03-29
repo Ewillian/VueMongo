@@ -7,12 +7,14 @@ module.exports = {
   getone: async(data_id, collection_name) => {
     let data = mongoose.model(collection_name, import_schema);
     var result = data.findOne({"_id": data_id})
+    delete mongoose.connection.models[collection_name]
     return await result
   },
 
   getall: async(collection_name) => {
     let data = mongoose.model(collection_name, import_schema);
     var result = data.find({})
+    delete mongoose.connection.models[collection_name]
     return await result
   },
 
@@ -25,9 +27,11 @@ module.exports = {
     console.log(new_data)
     new_data.save()
     .then(() => {
+      delete mongoose.connection.models[collection_name]
       return "201"
     })
     .catch(err => {
+      delete mongoose.connection.models[collection_name]
       return err
     })
   },
@@ -36,6 +40,7 @@ module.exports = {
     let data = mongoose.model(collection_name, import_schema);
     console.log("Delete: ", collection_name, id)
     await data.deleteOne({"_id": id});
+    delete mongoose.connection.models[collection_name]
   },
 
   dropDatabase: async(collection_name) => {

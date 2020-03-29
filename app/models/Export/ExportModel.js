@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 var Schema = mongoose.Schema
 const export_schema = new Schema({ any: Schema.Types.Mixed}, {strict: false})
+
 mongoose.pluralize(null)
 
 module.exports = {
@@ -8,12 +9,14 @@ module.exports = {
   get: async(data_id, collection_name) => {
     let data = mongoose.model(collection_name, export_schema);
     var result = data.findOne({"_id": data_id})
+    delete mongoose.connection.models[collection_name]
     return await result;
   },
 
   getall: async(collection_name) => {
     let data = mongoose.model(collection_name, export_schema);
     var result = data.find({})
+    delete mongoose.connection.models[collection_name]
     return await result
   },
 
@@ -44,13 +47,8 @@ module.exports = {
       let collection = params
       console.log(collection)
       let new_data = new data(collection)
-      new_data.save()
-      .then(() => {
-        return "201"
-      })
-      .catch(err => {
-        return err
-      })
+      await new_data.save()
+      delete mongoose.connection.models[collection_name]
     }
     else{
       // Error
@@ -88,8 +86,10 @@ module.exports = {
         let new_data = new data(collection)
         new_data.save()
         .catch(err => {
+          delete mongoose.connection.models[collection_name]
           return err
         })
+        delete mongoose.connection.models[collection_name]
       })
     }
     else{
@@ -135,9 +135,11 @@ module.exports = {
         function (err , success) {
           if (err) throw (err);
       })
+      delete mongoose.connection.models[collection_name]
     }
     else{
       // Error
+      delete mongoose.connection.models[collection_name]
       return false
     }
   }
