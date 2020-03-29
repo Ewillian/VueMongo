@@ -60,12 +60,11 @@ export default {
         i++
         axios.get(`http://localhost:6060/import/all/${element.name}`)
         .then(response => {
-          
-          Object_Collection.content = Object.values(response.data.json_to_object[0])
-          Object_Collection.keys = Object.keys(response.data.json_to_object[0])
+          let values_array = response.data.json_to_object[0]
+          delete values_array["__v"]
+          Object_Collection.content = Object.values(values_array)
+          Object_Collection.keys = Object.keys(values_array)
           this.collection_objects.push(Object_Collection)
-          console.log(this.collection_objects)
-          console.log(i)
         }).catch(e => {
           this.errors = e
         })

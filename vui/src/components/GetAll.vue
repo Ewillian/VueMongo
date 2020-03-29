@@ -3,7 +3,7 @@
   <div class="container">
     <div id="nav">
       <router-link :to="{ name: 'GetCols'}">Retour</router-link> |
-      <router-link :to="{ name: 'AddData'}">Ajouter une donnée</router-link>
+      <!--<router-link :to="{ name: 'AddData'}">Ajouter une donnée</router-link>-->
     </div>
     <h1>{{collection_name}}:</h1>
     <p class="error" v-if="error">{{error}}</p>
@@ -52,12 +52,18 @@ export default {
   },
   // props: ['collection_name'],
   async created() {
+    let i = 0;
     axios.get(`http://localhost:6060/import/all/${this.$route.params.collection_name}`)
     .then(response => { 
-      this.keys = Object.keys(response.data.json_to_object[0])
-      this.values = Object.values(response.data.json_to_object)
+      let keys_array = response.data.json_to_object[0]
+      delete keys_array["__v"]
+      this.keys = Object.keys(keys_array)
+      let values_array = Object.values(response.data.json_to_object)
+      for (let index = 0; index < values_array.length; index++) {
+        delete values_array[index]["__v"]
+      }
+      this.values = values_array
       this.collection_name = this.$route.params.collection_name
-      this.$options.collection_name = this.$route.params.collection_name
     })
     .catch(e => {
       this.errors = e
