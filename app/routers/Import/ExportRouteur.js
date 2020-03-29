@@ -23,35 +23,41 @@ router.get('/all/:collection_names', function(req, res, next) {
     })
 })
 
-router.post('/insertData/:collectionName',(req, res, next) => {
-    console.log("Poster des données")
-    JSONfileContent = JSON.parse(JSON.stringify(req.body))
-    model.getall(req.params.collectionName).then((result) => {
-        console.log(result)
-        let json_to_object = JSON.parse(JSON.stringify(result))
+// router.post('/insertData/:collectionName',(req, res, next) => {
+//     console.log("Poster des données")
+//     JSONfileContent = JSON.parse(JSON.stringify(req.body))
+//     model.getall(req.params.collectionName).then((result) => {
+//         console.log(result)
+//         let json_to_object = JSON.parse(JSON.stringify(result))
 
-        model.insertOne(req.params.collectionName, JSONfileContent, json_to_object).then((result) => {
-            if(result == false){
-                // à modifier le code status
-                res.format({
-                    json: () => {res.status(500).send({ code: 'Données entrées non valide.'})}
-                  })
-            }
-            else{
-                res.format({
-                    json: () => {res.status(201).send({ code: 'ok' })}
-                  })
-            }
-        }).catch((e) =>{
-            res.format({
-                json: () => {res.status(500).send({ code: err})}
-              })
-        }) 
-    }).catch((err) =>{
-        res.format({
-            json: () => {res.status(500).send({ code: err})}
-        })
-    })
+//         model.insertOne(req.params.collectionName, JSONfileContent, json_to_object).then((result) => {
+//             if(result == false){
+//                 // à modifier le code status
+//                 res.format({
+//                     json: () => {res.status(500).send({ code: 'Données entrées non valide.'})}
+//                   })
+//             }
+//             else{
+//                 res.format({
+//                     json: () => {res.status(201).send({ code: 'ok' })}
+//                   })
+//             }
+//         }).catch((e) =>{
+//             res.format({
+//                 json: () => {res.status(500).send({ code: err})}
+//               })
+//         }) 
+//     }).catch((err) =>{
+//         res.format({
+//             json: () => {res.status(500).send({ code: err})}
+//         })
+//     })
+// })
+
+router.post('/insertData/:collectionName', (req, res, next) => {
+    console.log('ajouter des données')
+    fileContent = req.body.fileContent
+    mongoose.connection.collection(req.params.collectionName).insertOne(JSON.parse(fileContent))
 })
 
 router.post('/insertManyData/:collectionName',(req, res, next) => {
