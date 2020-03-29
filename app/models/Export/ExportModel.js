@@ -57,5 +57,45 @@ module.exports = {
       // Error
       return false
     }
+  },
+
+  insertMany: async(collection_name, params, example_datas) =>{
+    let data = mongoose.model(collection_name, export_schema)
+    let test = true
+
+    // Traitement des clefs de donnée exemple
+    example_keys = example_datas[0]
+    delete example_keys["_id"]
+    delete example_keys['__v']
+    example_keys = Object.keys(example_keys)
+
+    // Vérification et traitement des clefs des données cibles
+    params.content.forEach(element => {
+      let i = 0;
+      Object.keys(element).forEach(key => {
+        if(example_keys[i] != key){
+          test = false
+        }
+        i++
+      })
+    })
+
+    if(test == true){
+      // Dans Base de donnée
+      console.log("push")
+      params.content.forEach(element => { 
+        let collection = element
+        console.log(collection)
+        let new_data = new data(collection)
+        new_data.save()
+        .catch(err => {
+          return err
+        })
+      })
+    }
+    else{
+      // Error
+      return false
+    }
   }
 } 

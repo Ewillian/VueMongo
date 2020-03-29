@@ -62,7 +62,7 @@ router.post('/insertManyData/:collectionName',(req, res, next) => {
         console.log(result)
         let json_to_object = JSON.parse(JSON.stringify(result))
 
-        model.insertOne(req.params.collectionName, JSONfileContent, json_to_object).then((result) => {
+        model.insertMany(req.params.collectionName, JSONfileContent, json_to_object).then((result) => {
             if(result == false){
                 // à modifier le code status
                 res.format({
