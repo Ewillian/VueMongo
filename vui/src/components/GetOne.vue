@@ -53,10 +53,10 @@ export default {
       }
     })
      .then(response => {  
-       this.keys = Object.keys(response.data.json_to_object)
-       this.values = Object.values(response.data.json_to_object)
-       console.log(this.keys)
-       console.log(this.values)
+       let data = response.data.json_to_object
+       delete data["__v"]
+       this.keys = Object.keys(data)
+       this.values = Object.values(data)
      })
      .catch(e => {
        this.errors = e
