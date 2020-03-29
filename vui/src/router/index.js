@@ -50,6 +50,12 @@ const routes = [
     path: '/sendData',
     name: 'sendData',
     component: () => import('../components/SendDataVue.vue')
+  },
+
+  {
+    path: '/AddData',
+    name: 'AddData',
+    component: () => import('../components/AddData.vue')
   }
 ]
 
