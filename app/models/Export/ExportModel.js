@@ -1,12 +1,7 @@
-  
 const mongoose = require('mongoose')
 var Schema = mongoose.Schema
+const export_schema = new Schema({ any: Schema.Types.Mixed}, {strict: false})
 mongoose.pluralize(null)
-
-const import_schema = new Schema({ any: Schema.Types.Mixed}, {strict: false})
-
-let mongo = mongoose.connect("mongodb://localhost:27017/DataBase", {useNewUrlParser: true,useUnifiedTopology: true})
-let db = mongoose.connection
 
 module.exports = {
 
@@ -15,19 +10,52 @@ module.exports = {
     return await result;
   },
 
-  insert: async(collection_name, data) =>{
+  getall: async(collection_name) => {
+    let data = mongoose.model(collection_name, export_schema);
+    var result = data.find({})
+    return await result
+  },
 
-    let data = mongoose.model(collection_name, import_schema);
-    let result = data.find({})
-    let example_keys = Object.keys(result[1])
-    let data_keys = Object.keys(data)
+  insertOne: async(collection_name, params, example_datas) =>{
+    let data = mongoose.model(collection_name, export_schema)
+    let test = true
+
+    // Traitement des clefs de donnée exemple
+    example_keys = example_datas[0]
+    delete example_keys["_id"]
+    delete example_keys['__v']
+    example_keys = Object.keys(example_keys)
     console.log(example_keys)
-    console.log(data_keys)
-    JSONfileContent = JSON.parse(data)
-    const jsonCollection = mongoose.model(collection_name, data)
-    const jsonContent = new jsonCollection(
-        JSONfileContent
-    )
-    jsonContent.save()
+
+    // Traitement des clefs de donnée cible
+    target_keys = Object.keys(params)
+    console.log(target_keys)
+    
+    for (let index = 0; index < target_keys.length; index++) {
+      const element = target_keys[index]
+      if(example_keys[index] != element){
+        test = false
+      }
+    }
+    console.log(test)
+    // Vérification
+    if(test == true){
+      // Dans Base de donnée
+      console.log("push")
+      let collection = params
+      console.log(collection)
+      let new_data = new data(collection)
+      new_data.save()
+      .then(() => {
+        return "201"
+      })
+      .catch(err => {
+        return err
+      })
+    }
+    else{
+      // Error
+      return false
+    }
   }
 } 
