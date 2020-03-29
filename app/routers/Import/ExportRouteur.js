@@ -1,11 +1,7 @@
 const router = require('express').Router()
 const bodyparser = require('body-parser')
-
 const model = require('../../models/Export/ExportModel')
-
 const mongoose = require('mongoose')
-mongoose.pluralize(null)
-const Schema = mongoose.Schema
 require('../../index')
 
 module.exports = router
@@ -27,13 +23,15 @@ router.get('/', function(req, res, next) {
 router.post('/:collectionName',(req, res, next) => {
     console.log("Poster des données")
     fileContent = req.body.fileContent
-    JSONfileContent = JSON.parse(fileContent)
-    const schemaJson = new Schema({ any: Schema.Types.Mixed}, {strict: false})
-    const jsonCollection = mongoose.model(req.params.collectionName, schemaJson)
-    const jsonContent = new jsonCollection(
-        JSONfileContent
-    )
-    jsonContent.save()
+    model.insert(req.params.collectionName, fileContent).then(() => {
+        res.format({
+          json: () => { res.status(201).send({ code: 'ok' }) }
+        })
+    }).catch(() =>{
+        res.format({
+            json: () => { res.status(500).send({ code: 'Internal Server Error' }) }
+          })
+    }) 
 })
 
 router.post('/insertData/:collectionName', (req, res, next) => {
