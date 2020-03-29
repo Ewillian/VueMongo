@@ -37,7 +37,7 @@ export default {
       this.results = response.data
     })
     .catch(e => {
-      this.errors.push(e)
+      this.errors = e
     })
 
   },
