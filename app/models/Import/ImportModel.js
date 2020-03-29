@@ -31,13 +31,6 @@ module.exports = {
       return err
     })
   },
-
-  update: async(collection_name, data_id, params) => {
-    let data = mongoose.model(collection_name, import_schema);
-    const upProduct = await product.findOne({_id: data_id});
-    
-    await upProduct.save();
-  },
   
   remove: async(collection_name, id) => {
     let data = mongoose.model(collection_name, import_schema);
