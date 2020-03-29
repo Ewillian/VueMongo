@@ -4,35 +4,27 @@
     <div id="nav">
       <router-link :to="{ name: 'GetAll', params: { collection_name: this.$route.params.collection_name}}">Retour</router-link>
     </div>
-    <h1>Contenu</h1>
+    <h1>Modification de la donnée:</h1>
     <p class="error" v-if="error">{{error}}</p>
 
-    <table>
-      <thead>
-        <tr>
-          <th v-for="(data, index) in keys"
+    <form action="" method="post">
+      <div v-for="(data, index) in keys"
               v-bind:item="data"
               v-bind:index="index"
-              v-bind:key="data.id">{{ data }}</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr>
-            <td v-for="(data, index) in values"
-              v-bind:item="data"
-              v-bind:index="index"
-              v-bind:key="data.id">{{ data }}</td>
-          </tr>
-      </tbody>
-    </table>
-    
+              v-bind:key="data.id">{{ data }}>
+        <div>
+          <label for="name">{{data}}: </label>
+          <input type="text" name="name" id="name" required>
+        </div>
+      </div>
+    </form>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 export default {
-  name: 'PatchOne',
+  name: 'ImportVue',
   data() {
     return {
       keys: [],
@@ -53,15 +45,15 @@ export default {
       }
     })
      .then(response => {  
-       this.keys = Object.keys(response.data.json_to_object)
-       this.values = Object.values(response.data.json_to_object)
-       console.log(this.keys)
-       console.log(this.values)
+       let data = response.data.json_to_object
+       delete data["__v"]
+       this.keys = Object.keys(data)
+       this.values = Object.values(data)
      })
      .catch(e => {
        this.errors = e
      })
-  },
+  }
 }
 </script>
 
