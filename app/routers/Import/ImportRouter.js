@@ -87,5 +87,4 @@ router.delete('/collection/:collection_name', (req, res, next) => {
     }).catch(next)
 })
 
-
 module.exports = router
