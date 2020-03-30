@@ -65,7 +65,6 @@ module.exports = {
   },
 
   insertMany: async(collection_name, params, example_datas) =>{
-    let data = mongoose.model(collection_name, export_schema)
     let test = true
 
     // Traitement des clefs de donnée exemple
@@ -89,6 +88,7 @@ module.exports = {
       // Dans Base de donnée
       console.log("push")
       params.content.forEach(element => { 
+        let data = mongoose.model(collection_name, export_schema)
         let collection = element
         console.log(collection)
         let new_data = new data(collection)

@@ -35,6 +35,12 @@ const routes = [
   },
 
   {
+    path: '/delcol',
+    name: 'DelCol',
+    component: () => import('../components/DelCol.vue')
+  },
+
+  {
     path: '/patchone',
     name: 'PatchOne',
     component: () => import('../components/PatchOne.vue')
