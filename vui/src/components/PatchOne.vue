@@ -11,10 +11,12 @@
       <div v-for="(data, index) in keys"
               v-bind:item="data"
               v-bind:index="index"
-              v-bind:key="data.id">{{ data }}>
-        <div>
-          <label for="name">{{data}}: </label>
-          <input type="text" name="name" id="name" required>
+              v-bind:id="data"
+              v-bind:key="data.id"><br>
+              <label for="name">{{data}}: </label>
+              <center><input type="text" name="name" id="name" required></center>
+      <div>
+          
         </div>
       </div>
     </form>
@@ -48,7 +50,8 @@ export default {
        let data = response.data.json_to_object
        delete data["__v"]
        this.keys = Object.keys(data)
-       this.values = Object.values(data)
+       //this.values = Object.values(data).splice(1, 4)
+       console.log(this.values)
      })
      .catch(e => {
        this.errors = e
