@@ -142,7 +142,7 @@ router.post('/createCollection/:collectionName',(req, res, next) => {
                 })
             }else {
                 res.format({
-                    json: () => {res.status(424).send({ code: 'Collection already exist' })}
+                    json: () => {res.send({ code: '409' })}
                 })
             }
             client.close();

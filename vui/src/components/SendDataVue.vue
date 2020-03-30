@@ -2,7 +2,7 @@
   <div class="container">
     
     <h3>{{text}}</h3>
-    <router-link :to="{ name: 'GetAll', params: {collection_name}}">Afficher la collection</router-link>
+    <router-link :to="{ name: 'GetAll', params: {collection_name}}">{{link}}</router-link>
   </div>
 </template>
 
@@ -13,7 +13,8 @@ export default {
   name: 'SendDataVue',
   data() {
       return {
-          text:'Collection Créée avec succès ! :-)',
+          text:'Collection Créée avec succès !',
+          link: "Voir la nouvelle collection.",
           collection_name: this.$route.params.collectionName
       }
   },
@@ -27,6 +28,15 @@ export default {
           collectionName: this.$route.params.collectionName,
           fileContent: this.$route.params.fileContent
         }
+      }).then(result => {
+        let res_code = result.data.code
+        if(res_code == 409){
+          this.text = "Votre collection existe déjà."
+          this.link = "Voir la collection."
+        } //else if(res_code == 500){
+        //   this.text = "Une erreur est survenue"
+        //   this.link = ""
+        // }
       })
   }
 }
