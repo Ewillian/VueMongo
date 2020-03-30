@@ -80,6 +80,11 @@ const routes = [
     path: '/InsertManyData',
     name: 'InsertManyData',
     component: () => import('../components/InsertManyData.vue')
+  },
+  {
+    path: '/PatchConfirm',
+    name: 'PatchConfirm',
+    component: () => import('../components/PatchConfirm.vue')
   }
 ]
 
