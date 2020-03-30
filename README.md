@@ -14,8 +14,9 @@
     - Object Relational Mapping (ORM)
     - Interface Humain-Machine (HMI)
 - Installation d'un environnement de développement
-    - Démarrer le projet
-    - 
+- Démarrer le projet
+- Structure du projet
+- Membre du projet
 
 ## 💎 Objectifs 💎
 
