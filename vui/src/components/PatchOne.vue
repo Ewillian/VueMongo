@@ -14,11 +14,11 @@
               v-bind:id="data"
               v-bind:key="data.id">
         <label for="name">{{keys[index]}}: </label>
-        <br><center><input type="text" name="name" id="name" :value=values[index] required></center>
+        <br><center><input type="text" name="name" :id=keys[index] :value=values[index] @change="setvalue($event.target.value, $event.target.id)" required></center>
       </div>
     </form>
 
-  <br><router-link :to="{ name: 'PatchConfirm', params: {collection_name}}"><button id='send' type='submit'>Valider les modifictations</button></router-link>
+  <br><router-link :to="{ name: 'PatchConfirm', params: {collection_name, content,  content_id}}"><button id='send' type='submit'>Valider les modifications</button></router-link>
 
   </div>
 </template>
@@ -33,12 +33,19 @@ export default {
       values: [],
       error: '',
       text:'',
-      collection_name: this.$route.params.collection_name
+      content: {},
+      collection_name: this.$route.params.collection_name,
+      content_id: ''
     }
   },
-  async created() {
-    console.log("ezrfze", this.$route.params)
 
+  methods: {
+    setvalue(value, key){
+      this.content[key] = value
+    }
+  },
+
+  async created() {
     axios({
       method: 'post',
       url: `http://localhost:6060/import/fromcollection/${this.$route.params.data_id}`,
@@ -49,6 +56,10 @@ export default {
     })
      .then(response => {  
        let data = response.data.json_to_object
+       console.log(data)
+       this.content = data
+       this.content_id = this.content._id
+       console.log(this.content._id)
        delete data["__v"]
        delete data["_id"]
        this.keys = Object.keys(data)
