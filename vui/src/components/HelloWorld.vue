@@ -3,7 +3,7 @@
     <h3>
       Bienvenue sur l'outil EasyMongo !
     </h3><br>
-    <p>Réalisé par Guillaume LE COQ, et Souleimane SEGHIR</p>
+    <p>Réalisé par Guillaume LE COQ et Souleimane SEGHIR</p>
   </div>
 </template>
 
