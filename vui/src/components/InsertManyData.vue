@@ -2,6 +2,8 @@
   <div class="container">
     
     <h3>{{text}}</h3>
+    <router-link :to="{ name: 'GetAll', params: {collection_name}}">Retourner vers la collection</router-link>
+
 
   </div>
 </template>
@@ -13,11 +15,13 @@ export default {
   name: 'InsertManyData',
   data() {
       return {
-          text:'Données ajoutées avec succès ! :-)'
+          text:'Données ajoutées avec succès ! :-)',
+          collection_name: this.$route.params.collectionName
       }
   },
   async created() {
     console.log(this.$route.params.fileContent)
+    console.log(this.$route.params.collectionName)
       axios({
         method: 'post',
         url: `http://localhost:6060/upload/insertManyData/${this.$route.params.collectionName}`,

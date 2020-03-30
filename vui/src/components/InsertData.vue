@@ -2,6 +2,7 @@
   <div class="container">
     
     <h3>{{text}}</h3>
+    <router-link :to="{ name: 'GetAll', params: {collection_name}}">Retourner vers la collection</router-link>
 
   </div>
 </template>
@@ -13,7 +14,8 @@ export default {
   name: 'InsertData',
   data() {
       return {
-          text:'Données ajoutées avec succès ! :-)'
+          text:'Données ajoutées avec succès ! :-)',
+          collection_name: this.$route.params.collectionName
       }
   },
   async created() {
