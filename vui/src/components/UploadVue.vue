@@ -19,6 +19,8 @@
 </template>
 
 <script>
+var convert = require('xml-js')
+const csvjson = require('csvjson')
 import ExportService from '../ExportService.js'
 import axios from 'axios'
 export default {
@@ -26,7 +28,7 @@ export default {
   data: function() {
     return {
       collectionName: "",
-      fileContent: ""
+      fileContent: {}
     };
   },
 
@@ -36,6 +38,7 @@ export default {
     },
     handleJsonFile() {
         this.fileContent = document.getElementById('byte_content').textContent
+        console.log(this.fileContent)
     },
     readButton() {
       document.getElementById('readBytesButtons').addEventListener('click', function(evt) {
@@ -57,7 +60,20 @@ export default {
 
             reader.onloadend = function(evt) {
               if (evt.target.readyState == FileReader.DONE) { 
+
+                if((document.getElementById("files").value).includes(".xml")){
+                  document.getElementById('byte_content').textContent = convert.xml2json(evt.target.result, {compact: true, spaces: 4})
+                }
+                else if((document.getElementById("files").value).includes(".csv")){
+                  document.getElementById('byte_content').textContent = csvjson.toObject("id,name,position1,John Smith, Manager")
+                  document.getElementById('byte_content').textContent = JSON.parse(JSON.stringify(document.getElementById('byte_content').textContent))
+                  console.log(document.getElementById('byte_content').textContent)
+                  let content = document.getElementById('byte_content')
+                  console.log(JSON.stringify(content))
+                }
+                else {
                 document.getElementById('byte_content').textContent = evt.target.result
+                }
               }
             }
             var blob = file.slice(start, stop + 1);
