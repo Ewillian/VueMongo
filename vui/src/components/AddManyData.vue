@@ -24,7 +24,7 @@ export default {
   data: function() {
     return {
       collectionName: this.$route.params.collection_name,
-      fileContent: ""
+      fileContent: {}
     };
   },
 
