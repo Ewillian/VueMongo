@@ -2,6 +2,7 @@ const router = require('express').Router()
 const bodyparser = require('body-parser')
 const model = require('../../models/Export/ExportModel.js')
 const mongoose = require('mongoose')
+const MongoClient = require('mongodb').MongoClient;
 
 router.use(bodyparser.json())
 router.use(bodyparser.urlencoded({
@@ -72,7 +73,6 @@ router.post('/insertData/:collectionName',(req, res, next) => {
 router.post('/insertManyData/:collectionName',(req, res, next) => {
     //req.body to JSON
     JSONfileContent = JSON.parse(req.body.fileContent)
-    console.log(JSONfileContent)
     //Appel du modèle mongoose (ExportModel)
     model.getall(req.params.collectionName).then((result) => {
         //result to JSON
@@ -107,22 +107,46 @@ router.post('/insertManyData/:collectionName',(req, res, next) => {
     })
 })
 
-const Schema = mongoose.Schema
 router.post('/createCollection/:collectionName',(req, res, next) => {
     //To JSON fileContent
     fileContent = req.body.fileContent
     fileContent = JSON.parse(fileContent)
-    //Appel du modèle mongoose (ExportModel)
-    model.createCollection(req.params.collectionName, fileContent).then((result) => {
-        res.format({
-            json: () => {res.status(201).send({ code: 'ok' })}
-        })
-    //Si erreur
-    }).catch((err) => {
-        console.log(err)
-        res.format({
-            json: () => {res.status(500).send({ code: 'Internal Server Error' })}
-        })
+    let exist = false
+
+    MongoClient.connect("mongodb://localhost:27017", function(err, client) {
+        var collections_names = []
+        const db = client.db("DataBase")
+        db.listCollections().toArray(function(err, items) {
+           items.forEach(element => {
+            collections_names.push(element)
+            })
+            console.log("collections_names", collections_names)
+            collections_names.forEach(element => {
+                if(element.name == req.params.collectionName){
+                    console.log("element", element)
+                    exist = true
+                }
+            })
+            if(exist == false){
+                //Appel du modèle mongoose (ExportModel)
+                model.createCollection(req.params.collectionName, fileContent).then((result) => {
+                    res.format({
+                        json: () => {res.status(201).send({ code: 'ok' })}
+                    })
+                //Si erreur
+                }).catch((err) => {
+                    console.log(err)
+                    res.format({
+                        json: () => {res.status(500).send({ code: 'Internal Server Error' })}
+                    })
+                })
+            }else {
+                res.format({
+                    json: () => {res.status(424).send({ code: 'Collection already exist' })}
+                })
+            }
+            client.close();
+       })
     })
 })
 
