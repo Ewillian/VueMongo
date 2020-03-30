@@ -4,18 +4,14 @@
     <h3>Ajouter un document dans la collection</h3>
     <h2>{{collectionName}}</h2>
 
-    <form action="" method="post">
       <input id="collectionName" value='d' style="display: none">
-      <br/><br/><label>Nom saisi > {{collectionName}}</label><br>
-      <br/><br/><label for="input-file">Fichier à importer :</label><br>
-      <input type="file" id="input-file" accept='.json'><br/><br/>
-      <textarea id="content-target" @input="handleJsonFile($event.target.value)"></textarea><br/>
+      <label for="input-file">Fichier à importer (<u>1 seule donnée</u>) :</label><br><br>
+    <input type="file" id="files" name="file" /><br /><br>
+    <button id="readBytesButtons" @click="readButton()">Valider (double clic)</button><br><br>
+    <div id="byte_range"></div>
+    <div id="byte_content"></div>
 
-            <span>Le message multiligne est :</span>
-      <p style="white-space: pre-line;">{{ fileContent }}</p><br>
-
-      <router-link :to="{ name: 'InsertData', params: {collectionName, fileContent}}"><button id='send' type='submit'>Envoyer</button></router-link>
-    </form>
+      <router-link :to="{ name: 'InsertData', params: {collectionName, fileContent}}"><button id='send' type='submit' @click="handleJsonFile()">Envoyer</button></router-link>
 
   </div>
 </template>
@@ -33,10 +29,39 @@ export default {
   },
 
   methods: {
-    handleJsonFile(value) {
-        this.fileContent = value;
-        console.log(value)
-    }
+    handleJsonFile() {
+        this.fileContent = document.getElementById('byte_content').textContent
+    },
+    readButton() {
+      document.getElementById('readBytesButtons').addEventListener('click', function(evt) {
+        if (evt.target.tagName.toLowerCase() == 'button') {
+          var startByte = evt.target.getAttribute('data-startbyte')
+          var endByte = evt.target.getAttribute('data-endbyte')
+
+          function readBlob(opt_startByte, opt_stopByte) {
+            var files = document.getElementById('files').files;
+            if (!files.length) {
+              alert('Veuillez sélectionner un fichier')
+              return
+            }
+
+            var file = files[0];
+            var start = parseInt(opt_startByte) || 0;
+            var stop = parseInt(opt_stopByte) || file.size - 1;
+            var reader = new FileReader()
+
+            reader.onloadend = function(evt) {
+              if (evt.target.readyState == FileReader.DONE) { 
+                document.getElementById('byte_content').textContent = evt.target.result
+              }
+            }
+            var blob = file.slice(start, stop + 1);
+            reader.readAsBinaryString(blob);
+          }
+          readBlob(startByte, endByte);
+        }
+      }, false);
+    },
   }
 }
 

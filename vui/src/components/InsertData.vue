@@ -23,7 +23,6 @@ export default {
         url: `http://localhost:6060/upload/insertData/${this.$route.params.collectionName}`,
         headers: {'Content-Type': 'application/json'}, 
         data: {
-          collectionName: this.$route.params.collectionName,
           fileContent: this.$route.params.fileContent
         }
       })

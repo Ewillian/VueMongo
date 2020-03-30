@@ -59,6 +59,7 @@ module.exports = {
     }
     else{
       // Error
+      delete mongoose.connection.models[collection_name]
       return false
     }
   },

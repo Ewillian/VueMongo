@@ -8,7 +8,7 @@ router.use(bodyparser.urlencoded({
         extended: true
 }))
 
-
+//GET all in collection_names
 router.get('/all/:collection_names', function(req, res, next) {
     //Appel du modèle mongoose (ExportModel)
     model.getall(req.params.collection_names).then((result) => {
@@ -31,9 +31,10 @@ router.get('/all/:collection_names', function(req, res, next) {
     })
 })
 
+//POST ONE data to collection
 router.post('/insertData/:collectionName',(req, res, next) => {
     //req.body to JSON
-    JSONfileContent = JSON.parse(JSON.stringify(req.body))
+    JSONfileContent = JSON.parse(req.body.fileContent)
     //Appel du modèle mongoose (ExportModel)
     model.getall(req.params.collectionName).then((result) => {
         let json_to_object = JSON.parse(JSON.stringify(result))
@@ -67,6 +68,7 @@ router.post('/insertData/:collectionName',(req, res, next) => {
     })
 })
 
+//POST MULTIPLE data to collection
 router.post('/insertManyData/:collectionName',(req, res, next) => {
     //req.body to JSON
     JSONfileContent = JSON.parse(JSON.stringify(req.body))

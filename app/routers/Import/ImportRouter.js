@@ -5,6 +5,7 @@ const MongoClient = require('mongodb').MongoClient;
 const url = "mongodb://localhost:27017"
 const mongoose = require('mongoose')
 
+//Apply BodyParser
 router.use(bodyparser.json())
 router.use(bodyparser.urlencoded({
         extended: true
