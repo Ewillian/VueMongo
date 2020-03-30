@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "node app/index.js",
-    "dev": "nodemon app/index.js"
+    "dev": "nodemon app/index.js",
+    "serve": "cd ./vui && npm run serve",
+    "electron": "sleep 2 && cd ./electron && npm run electron",
+    "project": "service mongod start && ./node_modules/.bin/npm-run-all --parallel dev serve electron"
   },
   "repository": {
     "type": "git",
