@@ -10,9 +10,11 @@ router.use(bodyparser.urlencoded({
 
 
 router.get('/all/:collection_names', function(req, res, next) {
+    //Appel du modèle mongoose (ExportModel)
     model.getall(req.params.collection_names).then((result) => {
-        console.log(result)
+        //Resultats to JSON
         let json_to_object = JSON.parse(JSON.stringify(result))
+        //Envois des données
         res.format({
             json: () => {
                 res.send({           
@@ -20,64 +22,79 @@ router.get('/all/:collection_names', function(req, res, next) {
                 })
             }
         })
+    //Si erreur
+    }).catch((err) => {
+        console.log(err)
+        res.format({
+            json: () => {res.status(500).send({ code: 'Internal Server Error'})}
+          })
     })
 })
 
 router.post('/insertData/:collectionName',(req, res, next) => {
-    console.log("Poster des données")
+    //req.body to JSON
     JSONfileContent = JSON.parse(JSON.stringify(req.body))
+    //Appel du modèle mongoose (ExportModel)
     model.getall(req.params.collectionName).then((result) => {
-        console.log(result)
         let json_to_object = JSON.parse(JSON.stringify(result))
 
         model.insertOne(req.params.collectionName, JSONfileContent, json_to_object).then((result) => {
+            //Si données non valide
             if(result == false){
-                // à modifier le code status
                 res.format({
-                    json: () => {res.status(500).send({ code: 'Données entrées non valide.'})}
+                    json: () => {res.status(400).send({ code: 'Données entrées non valide.'})}
                   })
             }
+            //Si données correcte
             else{
                 res.format({
                     json: () => {res.status(201).send({ code: 'ok' })}
                   })
             }
-        }).catch((e) =>{
+        //Si erreur
+        }).catch((err) =>{
+            console.log(err)
             res.format({
-                json: () => {res.status(500).send({ code: err})}
+                json: () => {res.status(500).send({ code: 'Internal Server Error'})}
               })
         }) 
+    //Si erreur
     }).catch((err) =>{
+        console.log(err)
         res.format({
-            json: () => {res.status(500).send({ code: err})}
+            json: () => {res.status(500).send({ code: 'Internal Server Error'})}
         })
     })
 })
 
 router.post('/insertManyData/:collectionName',(req, res, next) => {
-    console.log("Poster des données")
+    //req.body to JSON
     JSONfileContent = JSON.parse(JSON.stringify(req.body))
+    //Appel du modèle mongoose (ExportModel)
     model.getall(req.params.collectionName).then((result) => {
-        console.log(result)
+        //result to JSON
         let json_to_object = JSON.parse(JSON.stringify(result))
-
+        //Appel du modèle mongoose (ExportModel)
         model.insertMany(req.params.collectionName, JSONfileContent, json_to_object).then((result) => {
+            //Si données non valide
             if(result == false){
-                // à modifier le code status
                 res.format({
-                    json: () => {res.status(500).send({ code: 'Données entrées non valide.'})}
+                    json: () => {res.status(400).send({ code: 'Données entrées non valide.'})}
                   })
             }
+            //Si données valide
             else{
                 res.format({
                     json: () => {res.status(201).send({ code: 'ok' })}
                   })
             }
+        //Si erreur
         }).catch((e) =>{
             res.format({
                 json: () => {res.status(500).send({ code: 'Internal Server Error'})}
               })
         }) 
+    //Si erreur
     }).catch((e) =>{
         res.format({
             json: () => {res.status(500).send({ code: 'Internal Server Error'})}
@@ -85,18 +102,22 @@ router.post('/insertManyData/:collectionName',(req, res, next) => {
     })
 })
 
-mongoose.pluralize(null)
 const Schema = mongoose.Schema
 router.post('/createCollection/:collectionName',(req, res, next) => {
     console.log("Poster des données")
     fileContent = req.body.fileContent
-    JSONfileContent = JSON.parse(fileContent)
-    const schemaJson = new Schema({ any: Schema.Types.Mixed}, {strict: false})
-    const jsonCollection = mongoose.model(req.params.collectionName, schemaJson)
-    const jsonContent = new jsonCollection(
-        JSONfileContent
-    )
-    jsonContent.save()
+    fileContent = JSON.parse(fileContent)
+    model.createCollection(req.params.collectionName, fileContent).then((result) => {
+        console.log(result)
+        res.format({
+            json: () => {res.status(201).send({ code: 'ok' })}
+        })
+    }).catch((err) => {
+        console.log(err)
+        res.format({
+            json: () => {res.status(500).send({ code: 'Internal Server Error' })}
+        })
+    })
 })
 
 router.put('/data/:data_id', function(req, res, next) {

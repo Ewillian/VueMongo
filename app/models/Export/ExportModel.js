@@ -1,27 +1,36 @@
 const mongoose = require('mongoose')
 var Schema = mongoose.Schema
 const export_schema = new Schema({ any: Schema.Types.Mixed}, {strict: false})
-
 mongoose.pluralize(null)
 
 module.exports = {
 
   get: async(data_id, collection_name) => {
+    //Création Schéma
     let data = mongoose.model(collection_name, export_schema);
+    //Récupération Données
     var result = data.findOne({"_id": data_id})
+    //Suppression Schéma
     delete mongoose.connection.models[collection_name]
+    //Envois des données
     return await result;
   },
 
   getall: async(collection_name) => {
+    //Création Schéma
     let data = mongoose.model(collection_name, export_schema);
+    //Récupération Données
     var result = data.find({})
+    //Suppression Schéma
     delete mongoose.connection.models[collection_name]
+    //Envois des données
     return await result
   },
 
   insertOne: async(collection_name, params, example_datas) =>{
+    //Création Schéma
     let data = mongoose.model(collection_name, export_schema)
+    //Valeur de résultats de test
     let test = true
 
     // Traitement des clefs de donnée exemple
@@ -39,13 +48,11 @@ module.exports = {
         test = false
       }
     }
-    console.log(test)
+
     // Vérification
     if(test == true){
       // Dans Base de donnée
-      console.log("push")
       let collection = params
-      console.log(collection)
       let new_data = new data(collection)
       await new_data.save()
       delete mongoose.connection.models[collection_name]
@@ -98,6 +105,19 @@ module.exports = {
     }
   },
 
+  createCollection: async(collection_name, params) =>{
+    //Création du schéma
+    let data = mongoose.model(collection_name, export_schema)
+    //Remplissage du schéma
+    const jsonContent = new data(
+      params
+    )
+    //Enregistrement et création de la collection
+    await jsonContent.save()
+    //Suppression du schéma
+    delete mongoose.connection.models[collection_name]
+  },
+
   update: async(data_id, collection_name, params, example_datas) =>{
     let data = mongoose.model(collection_name, export_schema)
     let test = true
@@ -112,6 +132,7 @@ module.exports = {
     // Traitement des clefs de donnée cible
     target_keys = Object.keys(JSON.parse(params))
 
+    // Vérification
     for (let index = 0; index < target_keys.length; index++) {
       const element = target_keys[index]
       if(example_keys[index] != element){
@@ -119,7 +140,6 @@ module.exports = {
       }
     }
 
-    // Vérification
     if(test == true){
       // Dans Base de donnée
       console.log("push")
