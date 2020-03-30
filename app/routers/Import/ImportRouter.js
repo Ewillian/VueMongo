@@ -13,7 +13,6 @@ router.use(bodyparser.urlencoded({
 
 router.get('/all/:collection_names', function(req, res, next) {
     data.getall(req.params.collection_names).then((result) => {
-        console.log(result)
         let json_to_object = JSON.parse(JSON.stringify(result))
         res.format({
             json: () => {
@@ -42,13 +41,12 @@ router.get('/collections', function(req, res, next) {
             })
             client.close();
        })
-      })
+    })
 })
 
 router.post('/fromcollection/:id', function(req, res, next) {
      var id = mongoose.Types.ObjectId(req.params.id);
      data.getone(id, req.body.collection_name).then((result) => {
-         console.log(result)
          let json_to_object = JSON.parse(JSON.stringify(result))
          res.format({
              json: () => {
@@ -61,8 +59,6 @@ router.post('/fromcollection/:id', function(req, res, next) {
 })
 
 router.post('/newdata/:collection_name',(req, res, next) => {
-    console.log("POST a new data")
-    console.log(req.body)
     data.insert(req.params.collection_name, req.body).then(() => {
         res.format({
           json: () => { res.status(201).send({ code: 'ok' }) }
@@ -71,7 +67,6 @@ router.post('/newdata/:collection_name',(req, res, next) => {
 })
 
 router.delete('/:id', (req, res, next) => {
-    console.log('delone', req.params.id, req.body.collection_name)
     data.remove(req.body.collection_name, req.params.id).then(() => {
       res.format({
         json: () => { res.status(200).send({ message: 'success' }) }
@@ -80,7 +75,6 @@ router.delete('/:id', (req, res, next) => {
 })
 
 router.delete('/collection/:collection_name', (req, res, next) => {
-    console.log('delCol', req.params.collection_name)
     data.dropDatabase(req.params.collection_name).then(() => {
       res.format({
         json: () => { res.status(200).send({ message: 'success' }) }

@@ -85,11 +85,9 @@ module.exports = {
 
     if(test == true){
       // Dans Base de donnée
-      console.log("push")
       params.content.forEach(element => { 
         let data = mongoose.model(collection_name, export_schema)
         let collection = element
-        console.log(collection)
         let new_data = new data(collection)
         new_data.save()
         .catch(err => {
@@ -123,7 +121,6 @@ module.exports = {
     let test = true
 
     // Traitement des clefs de donnée exemple
-    console.log(example_datas)
     example_keys = example_datas
     delete example_keys["_id"]
     delete example_keys['__v']
@@ -142,7 +139,6 @@ module.exports = {
 
     if(test == true){
       // Dans Base de donnée
-      console.log("push")
       const entries = example_keys
       const updates = {}
       for (let i = 0; i < entries.length; i++) {
