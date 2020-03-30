@@ -14,9 +14,12 @@
               v-bind:id="data"
               v-bind:key="data.id">
         <label for="name">{{keys[index]}}: </label>
-        <center><input type="text" name="name" id="name" :value=values[index] required></center>
+        <br><center><input type="text" name="name" id="name" :value=values[index] required></center>
       </div>
     </form>
+
+  <br><router-link :to="{ name: 'PatchConfirm', params: {collection_name}}"><button id='send' type='submit'>Valider les modifictations</button></router-link>
+
   </div>
 </template>
 
@@ -29,7 +32,8 @@ export default {
       keys: [],
       values: [],
       error: '',
-      text:''
+      text:'',
+      collection_name: this.$route.params.collection_name
     }
   },
   async created() {
@@ -49,7 +53,6 @@ export default {
        delete data["_id"]
        this.keys = Object.keys(data)
        this.values = Object.values(data)
-       console.log(this.values)
      })
      .catch(e => {
        this.errors = e
