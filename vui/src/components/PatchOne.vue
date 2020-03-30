@@ -8,16 +8,13 @@
     <p class="error" v-if="error">{{error}}</p>
 
     <form action="" method="post">
-      <div v-for="(data, index) in keys"
+      <div v-for="(data, index) in values"
               v-bind:item="data"
               v-bind:index="index"
               v-bind:id="data"
-              v-bind:key="data.id"><br>
-              <label for="name">{{data}}: </label>
-              <center><input type="text" name="name" id="name" required></center>
-      <div>
-          
-        </div>
+              v-bind:key="data.id">
+        <label for="name">{{keys[index]}}: </label>
+        <center><input type="text" name="name" id="name" :value=values[index] required></center>
       </div>
     </form>
   </div>
@@ -49,8 +46,9 @@ export default {
      .then(response => {  
        let data = response.data.json_to_object
        delete data["__v"]
+       delete data["_id"]
        this.keys = Object.keys(data)
-       //this.values = Object.values(data).splice(1, 4)
+       this.values = Object.values(data)
        console.log(this.values)
      })
      .catch(e => {
