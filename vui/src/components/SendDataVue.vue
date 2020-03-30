@@ -2,7 +2,7 @@
   <div class="container">
     
     <h3>{{text}}</h3>
-
+    <router-link :to="{ name: 'GetAll', params: {collection_name}}">Afficher la collection</router-link>
   </div>
 </template>
 
@@ -13,7 +13,8 @@ export default {
   name: 'SendDataVue',
   data() {
       return {
-          text:'Collection Créée avec succès ! :-)'
+          text:'Collection Créée avec succès ! :-)',
+          collection_name: this.$route.params.collectionName
       }
   },
   async created() {
