@@ -3,7 +3,7 @@
     
     <h3>{{text}}</h3>
     <router-link :to="{ name: 'GetAll', params: {collection_name}}">Retourner vers la collection</router-link>
-
+  
   </div>
 </template>
 
@@ -26,6 +26,15 @@ export default {
         headers: {'Content-Type': 'application/json'}, 
         data: {
           fileContent: this.$route.params.fileContent
+        }
+      }).then(result => {
+        let res_code = result.data.code
+        if(res_code == 500){
+          this.text = "Une erreur est survenue."
+          this.link = ""
+        } else if(res_code == 400){
+          this.text = "Données entrées non valides."
+          this.link = ""
         }
       })
   }

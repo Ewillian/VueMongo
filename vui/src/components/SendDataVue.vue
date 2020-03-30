@@ -33,10 +33,10 @@ export default {
         if(res_code == 409){
           this.text = "Votre collection existe déjà."
           this.link = "Voir la collection."
-        } //else if(res_code == 500){
-        //   this.text = "Une erreur est survenue"
-        //   this.link = ""
-        // }
+        } else if(res_code == 500){
+           this.text = "Une erreur est survenue"
+           this.link = ""
+        }
       })
   }
 }

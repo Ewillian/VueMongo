@@ -2,7 +2,7 @@
   <div class="container">
     
     <h3>{{text}}</h3>
-    <router-link :to="{ name: 'GetAll', params: {collection_name}}">Retourner vers la collection</router-link>
+    <router-link :to="{ name: 'GetAll', params: {collection_name}}">{{link}}</router-link>
 
 
   </div>
@@ -15,7 +15,8 @@ export default {
   name: 'InsertManyData',
   data() {
       return {
-          text:'Données ajoutées avec succès ! :-)',
+          text:'Données ajoutées avec succès !',
+          link: "Retourner vers la collection.",
           collection_name: this.$route.params.collectionName
       }
   },
@@ -28,6 +29,15 @@ export default {
         headers: {'Content-Type': 'application/json'}, 
         data: {
           fileContent: this.$route.params.fileContent
+        }
+      }).then(result => {
+        let res_code = result.data.code
+        if(res_code == 500){
+          this.text = "Une erreur est survenue."
+          this.link = ""
+        } else if(res_code == 400){
+          this.text = "Données entrées non valides."
+          this.link = ""
         }
       })
   }

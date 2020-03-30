@@ -44,7 +44,7 @@ router.post('/insertData/:collectionName',(req, res, next) => {
             //Si données non valide
             if(result == false){
                 res.format({
-                    json: () => {res.status(400).send({ code: 'Données entrées non valide.'})}
+                    json: () => {res.send({ code: '400'})}
                   })
             }
             //Si données correcte
@@ -57,14 +57,14 @@ router.post('/insertData/:collectionName',(req, res, next) => {
         }).catch((err) =>{
             console.log(err)
             res.format({
-                json: () => {res.status(500).send({ code: 'Internal Server Error'})}
+                json: () => {res.send({ code: '500'})}
               })
         }) 
     //Si erreur
     }).catch((err) =>{
         console.log(err)
         res.format({
-            json: () => {res.status(500).send({ code: 'Internal Server Error'})}
+            json: () => {res.send({ code: '500'})}
         })
     })
 })
@@ -82,7 +82,7 @@ router.post('/insertManyData/:collectionName',(req, res, next) => {
             //Si données non valide
             if(result == false){
                 res.format({
-                    json: () => {res.status(400).send({ code: 'Données entrées non valide.'})}
+                    json: () => {res.send({ code: '400'})}
                   })
             }
             //Si données valide
@@ -95,14 +95,14 @@ router.post('/insertManyData/:collectionName',(req, res, next) => {
         }).catch((err) =>{
             console.log(err)
             res.format({
-                json: () => {res.status(500).send({ code: 'Internal Server Error'})}
+                json: () => {res.send({ code: '500'})}
               })
         }) 
     //Si erreur
     }).catch((err) =>{
         console.log(err)
         res.format({
-            json: () => {res.status(500).send({ code: 'Internal Server Error'})}
+            json: () => {res.send({ code: '500'})}
           })
     })
 })
@@ -137,7 +137,7 @@ router.post('/createCollection/:collectionName',(req, res, next) => {
                 }).catch((err) => {
                     console.log(err)
                     res.format({
-                        json: () => {res.status(500).send({ code: 'Internal Server Error' })}
+                        json: () => {res.send({ code: '500' })}
                     })
                 })
             }else {
@@ -170,7 +170,7 @@ router.put('/data/:data_id', function(req, res, next) {
          }).catch((err) => {
              console.log(err)
              res.format({
-                 json: () => {res.status(500).send({ code: 'Internal Server Error' })}
+                 json: () => {res.send({ code: '500' })}
              })
          })
      })

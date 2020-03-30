@@ -1,6 +1,10 @@
 <template>
   <div class="container">
 
+    <div id="nav">
+      <router-link :to="{ name: 'GetAll', params: { collection_name: this.$route.params.collection_name}}">Retour</router-link>
+    </div>
+
     <h3>Ajouter un document dans la collection</h3>
     <h2>{{collectionName}}</h2>
 

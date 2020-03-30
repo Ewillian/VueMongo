@@ -31,6 +31,12 @@ export default {
           content: this.$route.params.content,
           collection_name: this.$route.params.collection_name
         }
+      }).then(result => {
+        let res_code = result.data.code
+        if(res_code == 500){
+          this.text = "Une erreur est survenue."
+          this.link = ""
+        }
       })
   }
 }
