@@ -119,7 +119,7 @@ module.exports = {
   update: async(data_id, collection_name, params, example_datas) =>{
     let data = mongoose.model(collection_name, export_schema)
     let test = true
-
+    console.log(data_id, collection_name, params)
     // Traitement des clefs de donnée exemple
     example_keys = example_datas
     delete example_keys["_id"]

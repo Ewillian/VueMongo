@@ -153,26 +153,27 @@ router.post('/createCollection/:collectionName',(req, res, next) => {
 router.put('/data/:data_id', function(req, res, next) {
     //Parse req.body elements
     let collection_name = req.body.collection_name
-    let params = req.body.content[0]
+    let params = req.body.content
+    console.log(req.body.collection_name, req.body.content, req.params.data_id)
     //To JSON params
     params = JSON.stringify(params)
     //Appel du modèle mongoose (ExportModel)
-    model.get(req.params.data_id, collection_name).then((result) => {
-        //To JSON json_to_object (result)
-        let json_to_object = JSON.parse(JSON.stringify(result))
-        //Appel du modèle mongoose (ExportModel)
-        model.update(req.params.data_id, collection_name, params, json_to_object).then((result) => {
-            res.format({
-                json: () => {res.status(201).send({ code: 'ok' })}
-            })
-        //Si erreur
-        }).catch((err) => {
-            console.log(err)
-            res.format({
-                json: () => {res.status(500).send({ code: 'Internal Server Error' })}
-            })
-        })
-    })
+     model.get(req.params.data_id, collection_name).then((result) => {
+         //To JSON json_to_object (result)
+         let json_to_object = JSON.parse(JSON.stringify(result))
+         //Appel du modèle mongoose (ExportModel)
+         model.update(req.params.data_id, collection_name, params, json_to_object).then((result) => {
+             res.format({
+                 json: () => {res.status(201).send({ code: 'ok' })}
+             })
+         //Si erreur
+         }).catch((err) => {
+             console.log(err)
+             res.format({
+                 json: () => {res.status(500).send({ code: 'Internal Server Error' })}
+             })
+         })
+     })
 })
 
 module.exports = router

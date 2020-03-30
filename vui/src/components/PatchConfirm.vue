@@ -15,17 +15,21 @@ export default {
   name: 'PatchConfirm',
   data() {
       return {
-          text:'Données ajoutées avec succès ! :-)',
+        text:'Données ajoutées avec succès ! :-)',
+        collection_name: "",
+        content: {}
       }
   },
   async created() {
-    console.log(this.$route.params.collection_name)
+    this.collection_name = this.$route.params.collection_name
+    console.log(this.$route.params.content_id)
       axios({
         method: 'put',
-        url: `http://localhost:6060/upload/data/${this.$route.params.collectionName}`, //changer paramètre
+        url: `http://localhost:6060/upload/data/${this.$route.params.content_id}`,
         headers: {'Content-Type': 'application/json'}, 
         data: {
-          fileContent: this.$route.params.fileContent
+          content: this.$route.params.content,
+          collection_name: this.$route.params.collection_name
         }
       })
   }
