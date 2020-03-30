@@ -72,7 +72,6 @@ module.exports = {
     delete example_keys["_id"]
     delete example_keys['__v']
     example_keys = Object.keys(example_keys)
-
     // Vérification et traitement des clefs des données cibles
     params.content.forEach(element => {
       let i = 0;

@@ -71,7 +71,8 @@ router.post('/insertData/:collectionName',(req, res, next) => {
 //POST MULTIPLE data to collection
 router.post('/insertManyData/:collectionName',(req, res, next) => {
     //req.body to JSON
-    JSONfileContent = JSON.parse(JSON.stringify(req.body))
+    JSONfileContent = JSON.parse(req.body.fileContent)
+    console.log(JSONfileContent)
     //Appel du modèle mongoose (ExportModel)
     model.getall(req.params.collectionName).then((result) => {
         //result to JSON
@@ -91,13 +92,15 @@ router.post('/insertManyData/:collectionName',(req, res, next) => {
                   })
             }
         //Si erreur
-        }).catch((e) =>{
+        }).catch((err) =>{
+            console.log(err)
             res.format({
                 json: () => {res.status(500).send({ code: 'Internal Server Error'})}
               })
         }) 
     //Si erreur
-    }).catch((e) =>{
+    }).catch((err) =>{
+        console.log(err)
         res.format({
             json: () => {res.status(500).send({ code: 'Internal Server Error'})}
           })
