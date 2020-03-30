@@ -68,6 +68,18 @@ const routes = [
     path: '/InsertData',
     name: 'InsertData',
     component: () => import('../components/InsertData.vue')
+  },
+
+  {
+    path: '/AddManyData',
+    name: 'AddManyData',
+    component: () => import('../components/AddManyData.vue')
+  },
+
+  {
+    path: '/InsertManyData',
+    name: 'InsertManyData',
+    component: () => import('../components/InsertManyData.vue')
   }
 ]
 
